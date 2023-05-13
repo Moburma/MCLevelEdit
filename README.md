@@ -46,6 +46,6 @@ White - Switch (hidden switches)<br/>
 * Support for changing which Wizards are present on a level
 * Possibly support for wizard AI functionality
 * Mana total estimation 
-* Hopefully integration with the REMC2 project to have proper realtime map view
+* Hopefully integration with the [REMC2](https://github.com/thobbsinteractive/magic-carpet-2-hd) project to have proper realtime map view
 * Magic Carpet 2 level support
 * Make it look nicer
