@@ -1,7 +1,7 @@
 #Magic Carpet Level Editor by Moburma
 
-#VERSION 0.1
-#LAST MODIFIED: 13/05/2023
+#VERSION 0.2
+#LAST MODIFIED: 19/05/2023
 
 <#
 .SYNOPSIS
@@ -402,7 +402,7 @@ Switch ($model) {
     0{ return 'Fireball'}
     1{ return 'Heal'}
     2{ return 'Speed Up'}
-    3{ return 'Posession'}
+    3{ return 'Possession'}
     4{ return 'Shield'}
     5{ return 'Beyond Sight'}
     6{ return 'Earthquake'}
@@ -434,7 +434,7 @@ function reverseIdentifyspell ($model){
         'Fireball'{ return 0 }
         'Heal'{ return 1 }
         'Speed Up'{ return 2 }
-        'Posession'{ return 3 }
+        'Possession'{ return 3 }
         'Shield'{ return 4 }
         'Beyond Sight'{ return 5 }
         'Earthquake'{ return 6 }
@@ -460,7 +460,7 @@ function reverseIdentifyspell ($model){
     }
     }
 
-$spellCombo = @("Blank","Fireball", "Heal", "Speed Up", "Posession", "Shield", "Beyond Sight", "Earthquake", "Meteor", "Volcano", "Crater", "Teleport", "Duel", "Invisible", "Steal Mana", "Rebound", "Lightning", "Castle", "Skeleton", "Thunderbolt", "Mana Magnet", "Fire Wall", "Reverse Speed", "Global Death", "Rapid Fireball")
+$spellCombo = @("Blank","Fireball", "Heal", "Speed Up", "Possession", "Shield", "Beyond Sight", "Earthquake", "Meteor", "Volcano", "Crater", "Teleport", "Duel", "Invisible", "Steal Mana", "Rebound", "Lightning", "Castle", "Skeleton", "Thunderbolt", "Mana Magnet", "Fire Wall", "Reverse Speed", "Global Death", "Rapid Fireball")
 
 function identifyweather($model){ #Returns what the weather type is
 
@@ -503,8 +503,9 @@ Switch ($wizardname){
 
 }
 
-
 }
+
+$presentCombo = @("Yes","No")
 
 function thingColour($thingColour){
     Switch ($thingColour){  
@@ -1122,6 +1123,7 @@ function LoadLevel(){
     $MapgenDatatable.Rows.Clear();  #Clear out all datatables in case we already had a level open
     $Datatable.Rows.Clear();
     $WizDatatable.Rows.Clear();
+    $levelDataTable.Rows.Clear();
 
     #Get Mapgen variables
 
@@ -1458,7 +1460,7 @@ function LoadLevel(){
     $wizRow.Perception = ($Perception)
     $wizRow.Reflexes = ($Reflexes)
     $wizRow.CastleLevel = ($CastleLevel)
-    $wizRow.Present = ($wpresent)
+    $wizRow.PresentHidden = ($wpresent)
     $wizRow.SpellLoadout = ""   #Dummy this out for now as need the rest of the data in the table first to do spell lookup
     $wizRow.Fireball = ($Fireball)
     $wizRow.Shield = ($Shield)
@@ -1602,20 +1604,40 @@ function LoadLevel(){
     }
     Else{$mapimgfile = (get-item "$scriptdir/MCMaps/$fileonly.png")}
 
-    write-host $scriptdir
+  
 
     $Levelinfobox.text ="$fileonly.DAT
     Mana Target: $manatarget% of $manatotal total"
 
-    $global:img = [System.Drawing.Image]::Fromfile($mapimgfile);
+    $global:levimg = [System.Drawing.Image]::Fromfile($mapimgfile);
   
-    $pictureBox.Image = $img
+    $pictureBox.Image = $levimg
     $pictureBox.Size = New-Object System.Drawing.Size(256,256)
    
 
     #New attempt at drawing map
-$global:graphics=[System.Drawing.Graphics]::FromImage($img)
-$graphics.DrawImage($bmp,0,0,256,256)
+    $global:graphics=[System.Drawing.Graphics]::FromImage($levimg)
+    $graphics.DrawImage($bmp,0,0,256,256)
+    $picturebox.refresh()
+}
+
+function clearRow(){
+
+    $currow = $datagridview.CurrentCell.RowIndex
+
+    $datagridview.Rows[$currow].Cells[1].Value = 0
+    $datagridview.Rows[$currow].Cells[2].Value = 0
+    $datagridview.Rows[$currow].Cells[3].Value = 0
+    $datagridview.Rows[$currow].Cells[4].Value = "Blank"
+    $datagridview.Rows[$currow].Cells[5].Value = 0
+    $datagridview.Rows[$currow].Cells[6].Value = 0
+    $datagridview.Rows[$currow].Cells[7].Value = 0
+    $datagridview.Rows[$currow].Cells[8].Value = 0
+    $datagridview.Rows[$currow].Cells[9].Value = 0
+    $datagridview.Rows[$currow].Cells[10].Value = 0
+    $datagridview.Rows[$currow].Cells[11].Value = 0
+    $datagridview.Rows[$currow].Cells[12].Value = "Blank"
+    $datagridview.Rows[$currow].Cells[13].Value = "Blank"
 
 }
 
@@ -1667,7 +1689,7 @@ $WizDatatable = New-Object System.Data.DataTable
 [void]$WizDatatable.Columns.Add('Perception',[int]) 
 [void]$WizDatatable.Columns.Add('Reflexes',[int]) 
 [void]$WizDatatable.Columns.Add('CastleLevel',[int]) 
-[void]$WizDatatable.Columns.Add('Present',[string]) 
+[void]$WizDatatable.Columns.Add('PresentHidden',[string]) 
 [void]$WizDatatable.Columns.Add('SpellLoadout',[string]) 
 [void]$WizDatatable.Columns.Add('Fireball',[boolean])
 [void]$WizDatatable.Columns.Add('Shield',[boolean])
@@ -1801,26 +1823,26 @@ $WizDatatable = New-Object System.Data.DataTable
 
 [void][reflection.assembly]::LoadWithPartialName( "System.Windows.Forms")
 $form = New-Object Windows.Forms.Form
-$form.text = "MCLevelEdit  v0.1   By Moburma"
+$form.text = "MCLevelEdit  v0.2   By Moburma"
 $Form.Location= New-Object System.Drawing.Size(100,100)
 $Form.Size= New-Object System.Drawing.Size(960,795)
 
 $Scriptpath = $PSCommandPath
 $global:scriptdir = Split-Path $Scriptpath -Parent #Use script directory as default directory
-write-host $scriptdir
+
 $mapimgfile = (get-item "$scriptdir\MCMaps\Splash.png")
 $img = [System.Drawing.Image]::Fromfile($mapimgfile);
 
 [System.Windows.Forms.Application]::EnableVisualStyles();
 
-$pictureBox = New-Object Windows.Forms.PictureBox
+$global:pictureBox = New-Object Windows.Forms.PictureBox
 $pictureBox.Location = New-Object System.Drawing.Size(10,10)
 $pictureBox.Size = New-Object System.Drawing.Size($img.Width,$img.Height)
 $pictureBox.Image = $img
 $Form.controls.add($pictureBox)
 
 
-$thingNameCombo = @("Blank", "Unknown", "Wind", "Dragon", "Vulture", "Bee", "Worm", "Archer", "Crab", "Kraken", "Troll", "Griffin", "Skeleton", "Emu", "Genie", "Builder", "Townie", "Trader", "Wyvern", "Tree", "Standing Stone", "Dolmen", "Bad Stone", "2D Dome", "Big explosion", "Splash", "Fire", "Mini Volcano", "Volcano", "Mini crater", "Crater", "White smoke", "Black smoke", "Earthquake", "Meteor", "Steal Mana", "Lightning", "Rain of Fire", "Wall", "Path", "Canyon", "Teleport", "Mana Ball", "Villager Building", "Ridge Node", "Crab Egg", "Hidden Inside", "Hidden outside", "Hidden Inside re", "On victory", "Death Inside", "Death Outside", "Death inside re", "Obvious Inside", "Obvious outside", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll", "Griffon", "Genie", "Wyvern", "Creature all", "Flyer1", "Flyer2", "Flyer3", "Flyer4", "Flyer5", "Flyer6", "Flyer7", "Flyer8", "Fireball", "Heal", "Speed Up", "Posession", "Shield", "Beyond Sight", "Earthquake", "Meteor", "Volcano", "Crater", "Teleport", "Duel", "Invisible", "Steal Mana", "Rebound", "Lightning", "Castle", "Skeleton", "Thunderbolt", "Mana Magnet", "Fire Wall", "Reverse Speed", "Global Death", "Rapid Fireball")
+$thingNameCombo = @("Blank", "Unknown", "Wind", "Dragon", "Vulture", "Bee", "Worm", "Archer", "Crab", "Kraken", "Troll", "Griffin", "Skeleton", "Emu", "Genie", "Builder", "Townie", "Trader", "Wyvern", "Tree", "Standing Stone", "Dolmen", "Bad Stone", "2D Dome", "Big explosion", "Splash", "Fire", "Mini Volcano", "Volcano", "Mini crater", "Crater", "White smoke", "Black smoke", "Earthquake", "Meteor", "Steal Mana", "Lightning", "Rain of Fire", "Wall", "Path", "Canyon", "Teleport", "Mana Ball", "Villager Building", "Ridge Node", "Crab Egg", "Hidden Inside", "Hidden outside", "Hidden Inside re", "On victory", "Death Inside", "Death Outside", "Death inside re", "Obvious Inside", "Obvious outside", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll", "Griffon", "Genie", "Wyvern", "Creature all", "Flyer1", "Flyer2", "Flyer3", "Flyer4", "Flyer5", "Flyer6", "Flyer7", "Flyer8", "Fireball", "Heal", "Speed Up", "Possession", "Shield", "Beyond Sight", "Earthquake", "Meteor", "Volcano", "Crater", "Teleport", "Duel", "Invisible", "Steal Mana", "Rebound", "Lightning", "Castle", "Skeleton", "Thunderbolt", "Mana Magnet", "Fire Wall", "Reverse Speed", "Global Death", "Rapid Fireball")
 
 
 $Levelinfobox = New-Object Windows.Forms.Label
@@ -1852,6 +1874,17 @@ $SaveButton.Size = New-Object System.Drawing.Size(50,23)
 $SaveButton.Text = "Save"
 $Form.Controls.Add($SaveButton)
 $SaveButton.Add_Click($SaveButton_Click)
+
+#Clear Row Button
+
+$ClearButton_click = {ClearRow}
+
+$ClearButton = New-Object System.Windows.Forms.Button
+$ClearButton.Location = New-Object System.Drawing.Size(10,380)
+$ClearButton.Size = New-Object System.Drawing.Size(70,23)
+$ClearButton.Text = "Clear Row"
+$Form.Controls.Add($ClearButton)
+$ClearButton.Add_Click($ClearButton_Click)
 
 #Main Datagrid cell edited activities
 
@@ -2103,6 +2136,30 @@ $WizDetails_CellEndEdit=[System.Windows.Forms.DataGridViewCellEventHandler]{
 
     }
 
+    if ($WizDetails.Rows[$_.RowIndex].Cells[5].Value -eq "Yes"){    #If a wizard is set to being present, set all previous wizards to Yes as well
+        $wUpdates = $_.rowindex 
+        $levelDataTable.rows[0][1] = ($_.rowindex + 1) #Update total number of wizards
+        
+        DO{
+            $WizDetails.Rows[$wUpdates].Cells[5].Value = "Yes"
+            $wUpdates--
+        }UNTIL ($wUpdates -eq 0)
+    
+
+    }
+
+    if ($WizDetails.Rows[$_.RowIndex].Cells[5].Value -eq "No"){    #If a wizard is set to not being present, set all subsequent wizards to No as well
+        $wUpdates = ($_.rowindex + 1)
+        $levelDataTable.rows[0][1] = $wUpdates   #Update total number of wizards
+        
+        DO{
+            $WizDetails.Rows[$wUpdates].Cells[5].Value = "No"
+            $wUpdates++
+        }UNTIL ($wUpdates -eq 8)
+    
+
+    }
+   
 
 }
 
@@ -2133,13 +2190,24 @@ DO{     # Hide all the ai Boolean values
 
 }UNTIL ($aicount -eq 131)
 
+$PresentColumn = New-Object System.Windows.Forms.DataGridViewComboBoxColumn   #Define ThingType Combobox
+$PresentColumn.width = 80
+$PresentColumn.HeaderText = "Present"
+$PresentColumn.name = "Present"
+$PresentColumn.DataPropertyName = 'PresentHidden'
+$PresentColumn.DataSource = $presentCombo 
+[void]$WizDetails.Columns.Add($PresentColumn)
+$PresentColumn.DisplayIndex = 4
 
-
+$WizDetails.Columns[5].Visible = $false;
 
 $WizDetails.Columns[0].Readonly = $true; # Don't let user edit Wizard names
-$WizDetails.Columns[5].Readonly = $true; # Don't let user edit if Wizard is present on map (this should be automatic)
+#$WizDetails.Columns[5].Readonly = $true; # Don't let user edit if Wizard is present on map (this should be automatic)
 $WizDetails.Columns[6].Readonly = $true; # Don't let user edit spell loadout summary; this is updated based on Booleans
 
 $WizDetails.AllowUserToAddRows = $false; # Don't let user add more rows
+
+
+
 
 $form.ShowDialog()
