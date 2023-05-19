@@ -11,7 +11,7 @@ At the moment this is more of a proof of concept release, it is useful mainly fo
 
 * You will need the original loose level files. These are NOT included with Magic Carpet Plus, but can be found on the original Magic Carpet CD in the LEVELS directory
 * You will need to decompress the levels to edit them. They are RNC compressed and there are many tools available to achieve this, [this](https://github.com/lab313ru/rnc_propack_source) tool is recommended
-* Once the above is complete, run the script via the run button from inside PowerShell ISE: MCLevelEdit.PS1
+* Once the above is complete, run the script via PowerShell: MCLevelEdit.PS1
 * Choose Load to load one of the extracted and compressed level files above
 * Edit levels as you see fit
 * When finished press the save button to save a level file. Note this takes a relatively long time (approx 30 seconds) to save, so be patient! You will see a prompt when complete
@@ -32,18 +32,15 @@ White - Switch (hidden switches)<br/>
 
 ## Limitations/Known issues
 
-* Needs to be run from the play button in PowerShell ISE otherwise the map images won't load. Need to fix this.
 * The map image support is very crude and only a few levels have map images pre-created. The rest will appear as black squares
 * Removed items still appear on the map image
 * No editing of Mapgen attributes yet
 * No editing of mana total and target yet
-* No adding/removing wizards from levels yet
 
 ## Todo
 
 * Support for new level creation - exposing Mapgen attributes 
 * Support for editing level mana total and mana target
-* Support for changing which Wizards are present on a level
 * Possibly support for wizard AI functionality
 * Mana total estimation 
 * Hopefully integration with the [REMC2](https://github.com/thobbsinteractive/magic-carpet-2-hd) project to have proper realtime map view
