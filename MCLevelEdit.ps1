@@ -1,7 +1,7 @@
 #Magic Carpet Level Editor by Moburma
 
-#VERSION 0.2
-#LAST MODIFIED: 19/05/2023
+#VERSION 0.3
+#LAST MODIFIED: 28/06/2023
 
 <#
 .SYNOPSIS
@@ -13,21 +13,23 @@
 .RELATED LINKS
     
     https://github.com/michaelhoward/MagicCarpetFileFormat
+    https://tcrf.net/Notes:Magic_Carpet_(DOS)
     
 #>
 
 
 #set temporary variables until a level is loaded
 $filename = "No File Loaded"
-$manatotal =  0
-$manatarget = 0
+$global:manatotal =  0
+$global:manatarget = 0
+$global:estimatedManaTotal = 0
 
 
 function convert16bitint($Byteone, $Bytetwo) {
    
 
 $converbytes16 = [byte[]]($Byteone,$Bytetwo)
-$converted16 =[bitconverter]::ToInt16($converbytes16,0)
+$converted16 =[bitconverter]::ToUInt16($converbytes16,0)
 
 return $converted16
 
@@ -50,7 +52,7 @@ function identifyThing ($class){
 
 Switch ($class) {
 
-    0{ return 'Unknown'}
+    0{ return 'Blank'}
     1{ return 'N/A'}
     2{ return 'Scenery'}
     3{ return 'Player Spawn'}
@@ -73,7 +75,7 @@ function reverseIdentifyThing ($class){
 
     Switch ($class) {
     
-        'Unknown'{ return 0 }
+        'Blank'{ return 0 }
         'N/A'{ return 1 }
         'Scenery'{ return 2 }
         'Player Spawn'{ return 3 }
@@ -102,7 +104,7 @@ switch ($model)
     4{ return 'Archer'}
     5{ return 'Crab'}
     6{ return 'Kraken'}
-    7{ return 'Troll'}
+    7{ return 'Troll/Ape'}
     8{ return 'Griffin'}
     9{ return 'Skeleton'}
     10{ return 'Emu'}
@@ -129,7 +131,7 @@ function reverseIdentifycreature ($model){ #Returns what the creature type name 
 'Archer'{ return 4 }
 'Crab'{ return 5 }
 'Kraken'{ return 6 }
-'Troll'{ return 7 }
+'Troll/Ape'{ return 7 }
 'Griffin'{ return 8 }
 'Skeleton'{ return 9 }
 'Emu'{ return 10 }
@@ -142,7 +144,7 @@ function reverseIdentifycreature ($model){ #Returns what the creature type name 
     }
 }
 
-$creatureCombo = @("Blank", "Dragon", "Vulture", "Bee", "Worm", "Archer", "Crab", "Kraken", "Troll", "Griffin", "Skeleton", "Emu", "Genie", "Builder", "Townie", "Trader", "Unknown", "Wyvern")
+$creatureCombo = @("Blank", "Dragon", "Vulture", "Bee", "Worm", "Archer", "Crab", "Kraken", "Troll/Ape", "Griffin", "Skeleton", "Emu", "Genie", "Builder", "Townie", "Trader", "Unknown", "Wyvern")
 
 function identifyscenery($model){ #Returns what the scenery type name is
 
@@ -281,7 +283,7 @@ Switch ($model){
     0{ return 'Hidden Inside'}
     1{ return 'Hidden outside'}
     2{ return 'Hidden Inside re'}
-    3{ return 'Unknown'}
+    3{ return 'Hidden outside re'}
     4{ return 'On victory'}
     5{ return 'Death Inside'}
     6{ return 'Death Outside'}
@@ -298,8 +300,8 @@ Switch ($model){
     17{ return 'Archer'}
     18{ return 'Crab'}
     19{ return 'Kraken'}
-    20{ return 'Troll'}
-    21{ return 'Griffon'}
+    20{ return 'Troll/Ape'}
+    21{ return 'Griffin'}
     22{ return 'Unknown'}
     23{ return 'Unknown'}
     24{ return 'Genie'}
@@ -321,7 +323,7 @@ function reverseIdentifySwitch($model){ #Returns what kind of switch this is
         'Hidden Inside'{ return 0 }
         'Hidden outside'{ return 1 }
         'Hidden Inside re'{ return 2 }
-        'Unknown'{ return 3 }
+        'Hidden outside re'{ return 3 }
         'On victory'{ return 4 }
         'Death Inside'{ return 5 }
         'Death Outside'{ return 6 }
@@ -338,8 +340,8 @@ function reverseIdentifySwitch($model){ #Returns what kind of switch this is
         'Archer'{ return 17 }
         'Crab'{ return 18 }
         'Kraken'{ return 19 }
-        'Troll'{ return 20 }
-        'Griffon'{ return 21 }
+        'Troll/Ape'{ return 20 }
+        'Griffin'{ return 21 }
         'Unknown'{ return 22 }
         'Unknown'{ return 23 }
         'Genie'{ return 24 }
@@ -354,7 +356,7 @@ function reverseIdentifySwitch($model){ #Returns what kind of switch this is
     
     }
 
-$switchCombo = @("Blank", "Hidden Inside", "Hidden outside", "Hidden Inside re", "Unknown", "On victory", "Death Inside", "Death Outside", "Death inside re", "Obvious Inside", "Obvious outside", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll", "Griffon", "Genie", "Wyvern", "Creature all")
+$switchCombo = @("Blank", "Hidden Inside", "Hidden outside", "Hidden Inside re", "Unknown", "On victory", "Death Inside", "Death Outside", "Death inside re", "Obvious Inside", "Obvious outside", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll/Ape", "Griffin", "Genie", "Wyvern", "Creature all")
 
 function identifyspawn ($model){ 
 
@@ -523,6 +525,54 @@ function thingColour($thingColour){
 
 }
 
+function manaValues($creatureType){
+    Switch ($creatureType){  
+
+     0{ return 4500} #Dragon
+     1{ return 1000} #Vulture
+     2{ return 1500} #Bee
+     3{ return 4500} #Worm
+     4{ return 500} #Archer
+     5{ return 12000} #Crab - this one is problematic. The MINIMUM they give is 500 at level one, but they give 12,000 at full growth!
+     6{ return 4500} #Kraken
+     7{ return 1500}  #Troll
+     8{ return 5000}  #Griffin
+     9{ return 500}  #Skeleton
+     10{ return 1000}  #Emu
+     11{ return 10000} #Genie
+     16{ return 50000} #Wyvern
+
+    }
+
+
+}
+
+function calcManaTotal(){   #Recalculate estimated max mana in level
+    $global:estimatedManaTotal = 0
+foreach ($row in $datagridview.rows){
+
+        if ($row.Cells[1].Value -eq 5){   #If creature, add its value
+            $global:estimatedManaTotal = $global:estimatedManaTotal + (manaValues($Row.Cells[3].Value))
+
+        } 
+
+        if ($row.Cells[1].Value -eq 10 -and $Row.Cells[3].Value -eq 39 ){ # If Mana ball Effect, add 512 mana. 
+            $global:estimatedManaTotal = $global:estimatedManaTotal + 512
+        } 
+
+        if ($row.Cells[1].Value -eq 10 -and $Row.Cells[3].Value -eq 45 ){ # Buildings. These always give 512 mana. Possibly should NOT include these, as they don't count to stored mana
+            $global:estimatedManaTotal = $global:estimatedManaTotal + 512
+        } 
+
+}
+
+$Levelinfobox.text ="$global:fileonly.DAT
+Mana Target: $global:manatarget% of $global:manatotal total
+Mana Estimate: $global:estimatedManaTotal
+    "
+
+}
+
 function zeroPad ($repetitions) {
     $zerobytespadding = ""
     [byte[]]$zerobytespadding
@@ -581,8 +631,8 @@ function SaveFile(){
     $MapGenOutput  += $paddedBytes[0..1]
     $MapGenOutput  += $zerobyte[0..1]
     $PaddedBytes = [System.BitConverter]::GetBytes($mapGenDataTable.Rows[0].Raise)
-    $MapGenOutput  += $paddedBytes[0..1]
-    $MapGenOutput  += $zerobyte[0..1]
+    $MapGenOutput  += $paddedBytes[0..3]
+ 
     $PaddedBytes = [System.BitConverter]::GetBytes($mapGenDataTable.Rows[0].Gnarl)
     $MapGenOutput  += $paddedBytes[0..1]
     $MapGenOutput  += $zerobyte[0..1]
@@ -1076,27 +1126,36 @@ Return $spellList
 
 function LoadLevel(){
 
+    param (
+        [int]$newMap
+    )
 
-    
     $drawmap = 1
     [void][System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
     $global:bmp = New-Object System.Drawing.Bitmap(256, 256)
     
     [void][System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") 
 
+    if ($newMap -eq 1 ){ #If new map was called, load the empty template
+         $filename = "$scriptdir\Template.DAT"
+    }
+
+    Else { #Otherwise show file requester
     $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
     $OpenFileDialog.initialDirectory = $scriptdir
     $OpenFileDialog.filter = "DAT files (*.DAT)| *.DAT"
     $OpenFileDialog.ShowDialog() |  Out-Null
 
     $filename = $OpenFileDialog.filename
+    }
+    
 
     if ($filename -eq ""){ # User cancelled load file requester
         return 
     }
 
-    $FileOnly = [io.path]::GetFileName("$filename")
-    $FileOnly = $FileOnly.Substring(0,$FileOnly.Length-4)
+    $global:fileonly = [io.path]::GetFileName("$filename")
+    $global:fileonly = $global:fileonly.Substring(0,$global:fileonly.Length-4)
     
 
     $levfile = Get-Content $filename -Encoding Byte -ReadCount 0 #Load the actual file
@@ -1117,7 +1176,7 @@ function LoadLevel(){
     $Wnumber = 1
     #Check File type
 
-    $manatarget = $levfile[38800]
+    $global:manatarget = $levfile[38800]
     $numwizards = $levfile[38802] 
 
     $MapgenDatatable.Rows.Clear();  #Clear out all datatables in case we already had a level open
@@ -1127,10 +1186,10 @@ function LoadLevel(){
 
     #Get Mapgen variables
 
-    $ManaTotal = convert32bitint $levfile[0] $levfile[1] $levfile[2] $levfile[3]
+    $global:ManaTotal = convert32bitint $levfile[0] $levfile[1] $levfile[2] $levfile[3]
     $Seed = convert16bitint $levfile[4] $levfile[5] 
     $Offset = convert16bitint $levfile[8] $levfile[9] 
-    $Raise = convert16bitint $levfile[12] $levfile[13] 
+    $Raise = convert32bitint $levfile[12] $levfile[13] $levfile[14] $levfile[15] 
     $Gnarl = convert16bitint $levfile[16] $levfile[17] 
     $River = convert16bitint $levfile[20] $levfile[21] 
     $Sourc = convert16bitint $levfile[24] $levfile[25] 
@@ -1142,7 +1201,7 @@ function LoadLevel(){
 
     $mGRow = $mapGenDataTable.NewRow()  
 
-    $mGRow.ManaTotal =  ($ManaTotal)
+    $mGRow.ManaTotal =  ($global:ManaTotal)
     $mGRow.Seed =  ($Seed)
     $mGRow.Offset =  ($Offset)
     $mGRow.Raise =  ($Raise)
@@ -1161,7 +1220,7 @@ function LoadLevel(){
 
    $row = $levelDatatable.NewRow()  
 
-   $row.ManaTarget =  ($manatarget)
+   $row.ManaTarget =  ($global:manatarget)
    $row.NumWizards =  ($numwizards)
 
    $levelDatatable.Rows.Add($row)
@@ -1235,17 +1294,6 @@ function LoadLevel(){
         $bmp.SetPixel($xpos, $ypos, 'Purple')
         }
     }
-
-
-    #format Some Data 
-    if($disid -eq -1){
-        $disid = 65535
-        }
-        
-    if($swiid -eq -1){
-        $swiid = 65535
-        }
-        
 
  
     #Define Thing datatable rows
@@ -1599,15 +1647,13 @@ function LoadLevel(){
 
     }UNTIL ($wnumber -eq 9)
 
-    if (-not(Test-Path -Path "$scriptdir/MCMaps/$fileonly.png" -PathType Leaf)) {
+    if (-not(Test-Path -Path "$scriptdir/MCMaps/$global:fileonly.png" -PathType Leaf)) {
         $mapimgfile = (get-item "$scriptdir/MCMaps/BlankMap.png")
     }
-    Else{$mapimgfile = (get-item "$scriptdir/MCMaps/$fileonly.png")}
+    Else{$mapimgfile = (get-item "$scriptdir/MCMaps/$global:fileonly.png")}
 
-  
-
-    $Levelinfobox.text ="$fileonly.DAT
-    Mana Target: $manatarget% of $manatotal total"
+    calcManaTotal
+    
 
     $global:levimg = [System.Drawing.Image]::Fromfile($mapimgfile);
   
@@ -1619,7 +1665,26 @@ function LoadLevel(){
     $global:graphics=[System.Drawing.Graphics]::FromImage($levimg)
     $graphics.DrawImage($bmp,0,0,256,256)
     $picturebox.refresh()
+
+
 }
+
+
+function NewLevel {
+
+    $result = [System.Windows.Forms.MessageBox]::Show("Are you sure you want to start a new level? Existing progress will be lost.", "New Level confirmation", 'YesNo', 'Question')
+
+    if ($result -eq 'Yes') {
+        # Yes option was selected
+
+        LoadLevel -newMap 1
+    }
+    else {
+        # No option was selected
+       Return
+    }
+}
+
 
 function clearRow(){
 
@@ -1656,7 +1721,7 @@ $mapGenDataTable = New-Object System.Data.DataTable
 [void]$mapGenDataTable.Columns.Add('ManaTotal',[int]) 
 [void]$mapGenDataTable.Columns.Add('Seed',[int]) 
 [void]$mapGenDataTable.Columns.Add('Offset',[int]) 
-[void]$mapGenDataTable.Columns.Add('Raise',[int]) 
+[void]$mapGenDataTable.Columns.Add('Raise',[uint32]) 
 [void]$mapGenDataTable.Columns.Add('Gnarl',[int]) 
 [void]$mapGenDataTable.Columns.Add('River',[int]) 
 [void]$mapGenDataTable.Columns.Add('Sourc',[int]) 
@@ -1817,13 +1882,12 @@ $WizDatatable = New-Object System.Data.DataTable
 [void]$WizDatatable.Columns.Add('aistat100',[boolean])
 
 
-
 # ==================Forms start==================
 
 
 [void][reflection.assembly]::LoadWithPartialName( "System.Windows.Forms")
 $form = New-Object Windows.Forms.Form
-$form.text = "MCLevelEdit  v0.2   By Moburma"
+$form.text = "MCLevelEdit  v0.3   By Moburma"
 $Form.Location= New-Object System.Drawing.Size(100,100)
 $Form.Size= New-Object System.Drawing.Size(960,795)
 
@@ -1842,20 +1906,22 @@ $pictureBox.Image = $img
 $Form.controls.add($pictureBox)
 
 
-$thingNameCombo = @("Blank", "Unknown", "Wind", "Dragon", "Vulture", "Bee", "Worm", "Archer", "Crab", "Kraken", "Troll", "Griffin", "Skeleton", "Emu", "Genie", "Builder", "Townie", "Trader", "Wyvern", "Tree", "Standing Stone", "Dolmen", "Bad Stone", "2D Dome", "Big explosion", "Splash", "Fire", "Mini Volcano", "Volcano", "Mini crater", "Crater", "White smoke", "Black smoke", "Earthquake", "Meteor", "Steal Mana", "Lightning", "Rain of Fire", "Wall", "Path", "Canyon", "Teleport", "Mana Ball", "Villager Building", "Ridge Node", "Crab Egg", "Hidden Inside", "Hidden outside", "Hidden Inside re", "On victory", "Death Inside", "Death Outside", "Death inside re", "Obvious Inside", "Obvious outside", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll", "Griffon", "Genie", "Wyvern", "Creature all", "Flyer1", "Flyer2", "Flyer3", "Flyer4", "Flyer5", "Flyer6", "Flyer7", "Flyer8", "Fireball", "Heal", "Speed Up", "Possession", "Shield", "Beyond Sight", "Earthquake", "Meteor", "Volcano", "Crater", "Teleport", "Duel", "Invisible", "Steal Mana", "Rebound", "Lightning", "Castle", "Skeleton", "Thunderbolt", "Mana Magnet", "Fire Wall", "Reverse Speed", "Global Death", "Rapid Fireball")
+$thingNameCombo = @("Blank", "Unknown", "Wind", "Dragon", "Vulture", "Bee", "Worm", "Archer", "Crab", "Kraken", "Troll/Ape", "Griffin", "Skeleton", "Emu", "Genie", "Builder", "Townie", "Trader", "Wyvern", "Tree", "Standing Stone", "Dolmen", "Bad Stone", "2D Dome", "Big explosion", "Splash", "Fire", "Mini Volcano", "Volcano", "Mini crater", "Crater", "White smoke", "Black smoke", "Earthquake", "Meteor", "Steal Mana", "Lightning", "Rain of Fire", "Wall", "Path", "Canyon", "Teleport", "Mana Ball", "Villager Building", "Ridge Node", "Crab Egg", "Hidden Inside", "Hidden outside", "Hidden Inside re", "On victory", "Death Inside", "Death Outside", "Death inside re", "Obvious Inside", "Obvious outside", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll/Ape", "Griffin", "Genie", "Wyvern", "Creature all", "Flyer1", "Flyer2", "Flyer3", "Flyer4", "Flyer5", "Flyer6", "Flyer7", "Flyer8", "Fireball", "Heal", "Speed Up", "Possession", "Shield", "Beyond Sight", "Earthquake", "Meteor", "Volcano", "Crater", "Teleport", "Duel", "Invisible", "Steal Mana", "Rebound", "Lightning", "Castle", "Skeleton", "Thunderbolt", "Mana Magnet", "Fire Wall", "Reverse Speed", "Global Death", "Rapid Fireball")
 
 
 $Levelinfobox = New-Object Windows.Forms.Label
 $Levelinfobox.Location = New-Object Drawing.Point 10,270
-$Levelinfobox.Size = New-Object Drawing.Point 200,50
+$Levelinfobox.Size = New-Object Drawing.Point 200,80
 $Levelinfobox.text ="$filename 
-Mana Target: $manatarget% of $manatotal total"
+Mana Target: $global:manatarget% of $global:manatotal total
+Mana Estimate: 0
+"
 
 $Form.controls.add($Levelinfobox)
 
 #Load Button
 
-$LoadButton_click = {LoadLevel}
+$LoadButton_click = {LoadLevel -newMap 0}
 
 $LoadButton = New-Object System.Windows.Forms.Button
 $LoadButton.Location = New-Object System.Drawing.Size(10,350)
@@ -1875,6 +1941,18 @@ $SaveButton.Text = "Save"
 $Form.Controls.Add($SaveButton)
 $SaveButton.Add_Click($SaveButton_Click)
 
+#New Level button
+
+$NewButton_click = {NewLevel}
+
+$NewButton = New-Object System.Windows.Forms.Button
+$NewButton.Location = New-Object System.Drawing.Size(130,350)
+$NewButton.Size = New-Object System.Drawing.Size(50,23)
+$NewButton.Text = "New"
+$Form.Controls.Add($NewButton)
+$NewButton.Add_Click($NewButton_Click)
+
+
 #Clear Row Button
 
 $ClearButton_click = {ClearRow}
@@ -1885,6 +1963,249 @@ $ClearButton.Size = New-Object System.Drawing.Size(70,23)
 $ClearButton.Text = "Clear Row"
 $Form.Controls.Add($ClearButton)
 $ClearButton.Add_Click($ClearButton_Click)
+
+#Recalc Mana Button
+
+$recalcMana_click = {calcManaTotal}
+
+$recalcMana = New-Object System.Windows.Forms.Button
+$recalcMana.Location = New-Object System.Drawing.Size(90,380)
+$recalcMana.Size = New-Object System.Drawing.Size(90,23)
+$recalcMana.Text = "Recalc Mana"
+$Form.Controls.Add($recalcMana)
+$recalcMana.Add_Click($recalcMana_click)
+
+#Show Ai Attributes Tick box
+
+$aiCheckbox = New-Object System.Windows.Forms.CheckBox
+$aiCheckbox.Text = "Show AI Attributes"
+$aiCheckbox.Location = New-Object System.Drawing.Point(12,410)
+$aicheckbox.Size = New-Object System.Drawing.Size(200, 24)
+
+# Add the checkbox control to the form
+$form.Controls.Add($aiCheckbox)
+
+
+$aiCheckbox.add_CheckedChanged({
+    if ($aiCheckbox.Checked) {
+        $aicount = 31
+        DO{     # Show all the ai Boolean values
+
+        $WizDetails.Columns[$aicount].Visible = $true; 
+        $aicount++
+
+        }UNTIL ($aicount -eq 131)
+
+    } else {
+        $aicount = 31
+        DO{     # Hide all the ai Boolean values
+
+         $WizDetails.Columns[$aicount].Visible = $false; 
+         $aicount++
+
+        }UNTIL ($aicount -eq 131)
+    }
+})
+
+#MapGen Boxes
+
+$LevelMGinfobox = New-Object Windows.Forms.Label
+$LevelMGinfobox.Location = New-Object Drawing.Point 10,480
+$LevelMGinfobox.Size = New-Object Drawing.Point 200,20
+$LevelMGinfobox.text ="Map Generation Variables"
+$Form.controls.add($LevelMGinfobox)
+$font = New-Object System.Drawing.Font($LevelMGinfobox.Font, [System.Drawing.FontStyle]::Bold)
+$LevelMGinfobox.Font = $font
+
+#Seed
+$LevelSeedinfobox = New-Object Windows.Forms.Label
+$LevelSeedinfobox.Location = New-Object Drawing.Point 10,500
+$LevelSeedinfobox.Size = New-Object Drawing.Point 40,20
+$LevelSeedinfobox.text ="Seed:"
+$Form.controls.add($LevelSeedinfobox)
+
+$LevelSeedbox = New-Object Windows.Forms.TextBox
+$LevelSeedbox.Location = New-Object Drawing.Point 60,500
+$LevelSeedbox.Size = New-Object Drawing.Point 80,20
+
+$MGSeedDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "Seed")
+$LevelSeedbox.DataBindings.Add($MGSeedDataBinding)
+
+$Form.controls.add($LevelSeedbox)
+
+#Offset
+
+$LevelOffsetinfobox = New-Object Windows.Forms.Label
+$LevelOffsetinfobox.Location = New-Object Drawing.Point 10,520
+$LevelOffsetinfobox.Size = New-Object Drawing.Point 40,20
+$LevelOffsetinfobox.text ="Offset:"
+$Form.controls.add($LevelOffsetinfobox)
+
+$LevelOffsetbox = New-Object Windows.Forms.TextBox
+$LevelOffsetbox.Location = New-Object Drawing.Point 60,520
+$LevelOffsetbox.Size = New-Object Drawing.Point 80,20
+
+$MGOffsetDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "Offset")
+$LevelOffsetbox.DataBindings.Add($MGOffsetDataBinding)
+
+$Form.controls.add($LevelOffsetbox)
+
+#Raise
+
+$LevelRaiseinfobox = New-Object Windows.Forms.Label
+$LevelRaiseinfobox.Location = New-Object Drawing.Point 10,540
+$LevelRaiseinfobox.Size = New-Object Drawing.Point 40,20
+$LevelRaiseinfobox.text ="Raise:"
+$Form.controls.add($LevelRaiseinfobox)
+
+$LevelRaisebox = New-Object Windows.Forms.TextBox
+$LevelRaisebox.Location = New-Object Drawing.Point 60,540
+$LevelRaisebox.Size = New-Object Drawing.Point 80,20
+
+$MGRaiseDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "Raise")
+$LevelRaisebox.DataBindings.Add($MGRaiseDataBinding)
+
+$Form.controls.add($LevelRaisebox)
+
+#Gnarl
+
+$LevelGnarlinfobox = New-Object Windows.Forms.Label
+$LevelGnarlinfobox.Location = New-Object Drawing.Point 10,560
+$LevelGnarlinfobox.Size = New-Object Drawing.Point 40,20
+$LevelGnarlinfobox.text ="Gnarl:"
+$Form.controls.add($LevelGnarlinfobox)
+
+$LevelGnarlbox = New-Object Windows.Forms.TextBox
+$LevelGnarlbox.Location = New-Object Drawing.Point 60,560
+$LevelGnarlbox.Size = New-Object Drawing.Point 80,20
+
+$MGGnarlDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "Gnarl")
+$LevelGnarlbox.DataBindings.Add($MGGnarlDataBinding)
+
+$Form.controls.add($LevelGnarlbox)
+
+#River
+
+$LevelRiverinfobox = New-Object Windows.Forms.Label
+$LevelRiverinfobox.Location = New-Object Drawing.Point 10,580
+$LevelRiverinfobox.Size = New-Object Drawing.Point 40,20
+$LevelRiverinfobox.text ="River:"
+$Form.controls.add($LevelRiverinfobox)
+
+$LevelRiverbox = New-Object Windows.Forms.TextBox
+$LevelRiverbox.Location = New-Object Drawing.Point 60,580
+$LevelRiverbox.Size = New-Object Drawing.Point 80,20
+
+$MGRiverDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "River")
+$LevelRiverbox.DataBindings.Add($MGRiverDataBinding)
+
+$Form.controls.add($LevelRiverbox)
+
+#Sourc
+
+$LevelSourcinfobox = New-Object Windows.Forms.Label
+$LevelSourcinfobox.Location = New-Object Drawing.Point 10,600
+$LevelSourcinfobox.Size = New-Object Drawing.Point 40,20
+$LevelSourcinfobox.text ="Sourc:"
+$Form.controls.add($LevelSourcinfobox)
+
+$LevelSourcbox = New-Object Windows.Forms.TextBox
+$LevelSourcbox.Location = New-Object Drawing.Point 60,600
+$LevelSourcbox.Size = New-Object Drawing.Point 80,20
+
+$MGSourcDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "Sourc")
+$LevelSourcbox.DataBindings.Add($MGSourcDataBinding)
+
+$Form.controls.add($LevelSourcbox)
+
+
+#SnLin
+
+$LevelSnLininfobox = New-Object Windows.Forms.Label
+$LevelSnLininfobox.Location = New-Object Drawing.Point 10,620
+$LevelSnLininfobox.Size = New-Object Drawing.Point 40,20
+$LevelSnLininfobox.text ="SnLin:"
+$Form.controls.add($LevelSnLininfobox)
+
+$LevelSnLinbox = New-Object Windows.Forms.TextBox
+$LevelSnLinbox.Location = New-Object Drawing.Point 60,620
+$LevelSnLinbox.Size = New-Object Drawing.Point 80,20
+
+$MGSnLinDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "SnLin")
+$LevelSnLinbox.DataBindings.Add($MGSnLinDataBinding)
+
+$Form.controls.add($LevelSnLinbox)
+
+
+#SnFlt
+
+$LevelSnFltinfobox = New-Object Windows.Forms.Label
+$LevelSnFltinfobox.Location = New-Object Drawing.Point 10,640
+$LevelSnFltinfobox.Size = New-Object Drawing.Point 40,20
+$LevelSnFltinfobox.text ="SnFlt:"
+$Form.controls.add($LevelSnFltinfobox)
+
+$LevelSnFltbox = New-Object Windows.Forms.TextBox
+$LevelSnFltbox.Location = New-Object Drawing.Point 60,640
+$LevelSnFltbox.Size = New-Object Drawing.Point 80,20
+
+$MGSnFltDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "SnFlt")
+$LevelSnFltbox.DataBindings.Add($MGSnFltDataBinding)
+
+$Form.controls.add($LevelSnFltbox)
+
+#BhLin
+
+$LevelBhLininfobox = New-Object Windows.Forms.Label
+$LevelBhLininfobox.Location = New-Object Drawing.Point 10,660
+$LevelBhLininfobox.Size = New-Object Drawing.Point 40,20
+$LevelBhLininfobox.text ="BhLin:"
+$Form.controls.add($LevelBhLininfobox)
+
+$LevelBhLinbox = New-Object Windows.Forms.TextBox
+$LevelBhLinbox.Location = New-Object Drawing.Point 60,660
+$LevelBhLinbox.Size = New-Object Drawing.Point 80,20
+
+$MGBhLinDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "BhLin")
+$LevelBhLinbox.DataBindings.Add($MGBhLinDataBinding)
+
+$Form.controls.add($LevelBhLinbox)
+
+#BhFlt
+
+$LevelBhFltinfobox = New-Object Windows.Forms.Label
+$LevelBhFltinfobox.Location = New-Object Drawing.Point 10,680
+$LevelBhFltinfobox.Size = New-Object Drawing.Point 40,20
+$LevelBhFltinfobox.text ="BhFlt:"
+$Form.controls.add($LevelBhFltinfobox)
+
+$LevelBhFltbox = New-Object Windows.Forms.TextBox
+$LevelBhFltbox.Location = New-Object Drawing.Point 60,680
+$LevelBhFltbox.Size = New-Object Drawing.Point 80,20
+
+$MGBhFltDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "BhFlt")
+$LevelBhFltbox.DataBindings.Add($MGBhFltDataBinding)
+
+$Form.controls.add($LevelBhFltbox)
+
+
+#RkSte
+
+$LevelRkSteinfobox = New-Object Windows.Forms.Label
+$LevelRkSteinfobox.Location = New-Object Drawing.Point 10,700
+$LevelRkSteinfobox.Size = New-Object Drawing.Point 40,20
+$LevelRkSteinfobox.text ="RkSte:"
+$Form.controls.add($LevelRkSteinfobox)
+
+$LevelRkStebox = New-Object Windows.Forms.TextBox
+$LevelRkStebox.Location = New-Object Drawing.Point 60,700
+$LevelRkStebox.Size = New-Object Drawing.Point 80,20
+
+$MGRkSteDataBinding = New-Object System.Windows.Forms.Binding("Text", $mapGenDataTable, "RkSte")
+$LevelRkStebox.DataBindings.Add($MGRkSteDataBinding)
+
+$Form.controls.add($LevelRkStebox)
+
 
 #Main Datagrid cell edited activities
 
@@ -2136,7 +2457,7 @@ $WizDetails_CellEndEdit=[System.Windows.Forms.DataGridViewCellEventHandler]{
 
     }
 
-    if ($WizDetails.Rows[$_.RowIndex].Cells[5].Value -eq "Yes"){    #If a wizard is set to being present, set all previous wizards to Yes as well
+    if ($WizDetails.Rows[$_.RowIndex].Cells[5].Value -eq "Yes" -and $_.RowIndex -gt 0){    #If a wizard is set to being present, set all previous wizards to Yes as well
         $wUpdates = $_.rowindex 
         $levelDataTable.rows[0][1] = ($_.rowindex + 1) #Update total number of wizards
         
@@ -2202,7 +2523,6 @@ $PresentColumn.DisplayIndex = 4
 $WizDetails.Columns[5].Visible = $false;
 
 $WizDetails.Columns[0].Readonly = $true; # Don't let user edit Wizard names
-#$WizDetails.Columns[5].Readonly = $true; # Don't let user edit if Wizard is present on map (this should be automatic)
 $WizDetails.Columns[6].Readonly = $true; # Don't let user edit spell loadout summary; this is updated based on Booleans
 
 $WizDetails.AllowUserToAddRows = $false; # Don't let user add more rows
