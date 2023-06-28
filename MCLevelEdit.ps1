@@ -288,11 +288,11 @@ Switch ($model){
     5{ return 'Death Inside'}
     6{ return 'Death Outside'}
     7{ return 'Death inside re'}
-    8{ return 'Unknown'}
+    8{ return 'Death Outside re'}
     9{ return 'Obvious Inside'}
     10{ return 'Obvious outside'}
-    11{ return 'Unknown'}
-    12{ return 'Unknown'}
+    11{ return 'Obvious Inside re'}
+    12{ return 'Obvious outside re'}
     13{ return 'Dragon'}
     14{ return 'Vulture'}
     15{ return 'Bee'}
@@ -328,11 +328,11 @@ function reverseIdentifySwitch($model){ #Returns what kind of switch this is
         'Death Inside'{ return 5 }
         'Death Outside'{ return 6 }
         'Death inside re'{ return 7 }
-        'Unknown'{ return 8 }
+        'Death Outside re'{ return 8 }
         'Obvious Inside'{ return 9 }
         'Obvious outside'{ return 10 }
-        'Unknown'{ return 11 }
-        'Unknown'{ return 12 }
+        'Obvious Inside re'{ return 11 }
+        'Obvious outside re'{ return 12 }
         'Dragon'{ return 13 }
         'Vulture'{ return 14 }
         'Bee'{ return 15 }
@@ -356,7 +356,7 @@ function reverseIdentifySwitch($model){ #Returns what kind of switch this is
     
     }
 
-$switchCombo = @("Blank", "Hidden Inside", "Hidden outside", "Hidden Inside re", "Unknown", "On victory", "Death Inside", "Death Outside", "Death inside re", "Obvious Inside", "Obvious outside", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll/Ape", "Griffin", "Genie", "Wyvern", "Creature all")
+$switchCombo = @("Blank", "Hidden Inside", "Hidden outside", "Hidden Inside re", "Hidden Outside re",  "Unknown", "On victory", "Death Inside", "Death Outside","Death Outside re", "Death inside re", "Obvious Inside", "Obvious Inside re", "Obvious outside", "Obvious outside re", "Dragon", "Vulture", "Bee", "None", "Archer", "Crab", "Kraken", "Troll/Ape", "Griffin", "Genie", "Wyvern", "Creature all")
 
 function identifyspawn ($model){ 
 
