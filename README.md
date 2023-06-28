@@ -7,15 +7,22 @@ At the moment this is more of a proof of concept release, it is useful mainly fo
 
 ![Example Screenshot](MCLevelEdit1.png)
 
+## New in Version 0.3
+
+* Mana estimation to help work out reasonable mana targets for levels. Press the button to force a recalculattion of this when you add more Things.
+* MapGen Attributes. You can change the fundamentals of how a level looks with these. Note any changes you make will NOT be reflected within the map image, you will need to maake changes by trial and error, sadly.
+* Wizard AI Attributes. These are not understood, but determine how skilled a wizard is in-game. Tick the box to toggle seeing these in the Wizard stats window.
+* New Map button. This actually loads a file called template.dat with nothing in it. Use this to make new maps based on templates for e.g. common Wizard stats.
+
 ## Usage
 
-* You will need the original loose level files. These are NOT included with Magic Carpet Plus, but can be found on the original Magic Carpet CD in the LEVELS directory
+* You will need the original loose level files. These are NOT included with Magic Carpet Plus, but can be found on the original Magic Carpet CD in the LEVELS directory. Either that, or you can extact them yourself with my [MCDatTab](https://github.com/Moburma/MCDatExtractor) tool.
 * You will need to decompress the levels to edit them. They are RNC compressed and there are many tools available to achieve this, [this](https://github.com/lab313ru/rnc_propack_source) tool is recommended
 * Once the above is complete, run the script via PowerShell: MCLevelEdit.PS1
-* Choose Load to load one of the extracted and compressed level files above
+* Choose Load to load one of the extracted and uncompressed level files above
 * Edit levels as you see fit
 * When finished press the save button to save a level file. Note this takes a relatively long time (approx 30 seconds) to save, so be patient! You will see a prompt when complete
-* To play levels, you must RNC pack them first, then add them with the other level files to the LEVELS.DAT/TAB file. To do this, see my other script [here](https://github.com/Moburma/MCDatTab)
+* To play levels, you can optionally RNC pack them first, and then add them with the other level files to the LEVELS.DAT/TAB file. To do this, see my other script [here](https://github.com/Moburma/MCDatTab)
 * Keep in mind that a large number of the game's levels work by only giving the player the spell inventory they have found at that point, and ignore what is set in the level file. If you set your level as the first one in the game, for example, the player will always start with NO spells, regardless what is set in the level file. To work around this, either save as a later "spell vampire" level, include the spells on the ground at map start, or use the Alpha executable found on the original game CD (non-Magic Carpet Plus) for testing
 
 For information on game entities and attributes, see [here](https://tcrf.net/Notes:Magic_Carpet_(DOS)) and [here](https://github.com/michaelhoward/MagicCarpetFileFormat/blob/master/magic%20carpet%20file%20format.txt).
@@ -34,15 +41,11 @@ White - Switch (hidden switches)<br/>
 
 * The map image support is very crude and only a few levels have map images pre-created. The rest will appear as black squares
 * Removed items still appear on the map image
-* No editing of Mapgen attributes yet
 * No editing of mana total and target yet
 
 ## Todo
 
-* Support for new level creation - exposing Mapgen attributes 
 * Support for editing level mana total and mana target
-* Possibly support for wizard AI functionality
-* Mana total estimation 
 * Hopefully integration with the [REMC2](https://github.com/thobbsinteractive/magic-carpet-2-hd) project to have proper realtime map view
-* Magic Carpet 2 level support
+* Magic Carpet 2 level support - unlikely, check out [REMC2](https://github.com/thobbsinteractive/magic-carpet-2-hd) which now includes a Magic Carpet 2 level editor.
 * Make it look nicer
