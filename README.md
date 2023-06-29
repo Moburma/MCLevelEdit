@@ -9,8 +9,8 @@ At the moment this is more of a proof of concept release, it is useful mainly fo
 
 ## New in Version 0.3
 
-* Mana estimation to help work out reasonable mana targets for levels. Press the button to force a recalculattion of this when you add more Things.
-* MapGen Attributes. You can change the fundamentals of how a level looks with these. Note any changes you make will NOT be reflected within the map image, you will need to maake changes by trial and error, sadly.
+* Mana estimation to help work out reasonable mana targets for levels. Press the button to force a recalculation of this when you add more Things.
+* MapGen Attributes. You can change the fundamentals of how a level looks with these. Note any changes you make will NOT be reflected within the map image, you will need to make changes by trial and error, sadly.
 * Wizard AI Attributes. These are not understood, but determine how skilled a wizard is in-game. Tick the box to toggle seeing these in the Wizard stats window.
 * New Map button. This actually loads a file called template.dat with nothing in it. Use this to make new maps based on templates for e.g. common Wizard stats.
 
