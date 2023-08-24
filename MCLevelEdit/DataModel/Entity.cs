@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MCLevelEdit.Domain
+namespace MCLevelEdit.DataModel
 {
     public record Entity(int Id, EntityType EntityType, Position Position);
 }
