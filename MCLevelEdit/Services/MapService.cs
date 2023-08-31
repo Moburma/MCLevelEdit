@@ -1,4 +1,4 @@
-﻿using MCLevelEdit.Domain;
+﻿using MCLevelEdit.DataModel;
 
 namespace MCLevelEdit.Services
 {
