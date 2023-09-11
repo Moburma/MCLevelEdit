@@ -12,11 +12,14 @@ namespace MCLevelEdit.ViewModels
 
         public EntitiesViewModel()
         {
-            Entities = new ObservableCollection<Entity>();
-            Entities.Add(new Entity(0, DataModel.EntityTypes.I.Spawns[0], new Position(0, 0)));
+            Entities = new ObservableCollection<Entity>
+            {
+                new Entity(0, DataModel.EntityTypes.I.Spawns[(int)Spawn.Flyer1], new Position(0, 0))
+            };
 
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
+                int i = 0;
                 // Code here will be executed when the button is clicked.
             });
         }
