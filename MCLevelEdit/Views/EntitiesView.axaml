@@ -13,9 +13,35 @@
               GridLinesVisibility="All"
               BorderThickness="1" BorderBrush="Gray">
       <DataGrid.Columns>
-        <DataGridTextColumn Header="Number"
-                            Width="2*"
+        <DataGridTextColumn Header="Num"
+                            Width="1*"
                             Binding="{Binding Id}"/>
+        <DataGridTextColumn Header="Class"
+                    Width="1*" />
+        <DataGridTextColumn Header="Type"
+                    Width="2*"
+                    Binding="{Binding EntityType}"/>
+        <DataGridTextColumn Header="Model"
+            Width="1*"/>
+        <DataGridTextColumn Header="Name"
+            Width="2*"
+            Binding="{Binding EntityType.Name}"/>
+        <DataGridTextColumn Header="XPos"
+            Width="1*"
+            Binding="{Binding Position.X}"/>
+        <DataGridTextColumn Header="YPos"
+            Width="1*"
+            Binding="{Binding Position.Y}"/>
+        <DataGridTextColumn Header="DisId"
+            Width="1*"/>
+        <DataGridTextColumn Header="SwSz"
+            Width="1*"/>
+        <DataGridTextColumn Header="SwId"
+            Width="1*"/>
+        <DataGridTextColumn Header="Parent"
+            Width="1*"/>
+        <DataGridTextColumn Header="Child"
+            Width="1*"/>
       </DataGrid.Columns>
     </DataGrid>
     <Button DockPanel.Dock="Bottom"
