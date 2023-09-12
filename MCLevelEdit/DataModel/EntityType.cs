@@ -1,4 +1,12 @@
 ﻿namespace MCLevelEdit.DataModel
 {
-    public record EntityType(int ClassId, int TypeId, string Name);
+    public enum TypeId
+    {
+        Scenary = 2,
+        Spawn = 3,
+        Creature = 5,
+        Effect = 10
+    }
+
+    public record EntityType(TypeId TypeId, int Id, string Name);
 }

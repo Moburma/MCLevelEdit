@@ -8,6 +8,7 @@ namespace MCLevelEdit.ViewModels
     public class EntitiesViewModel : ViewModelBase
     {
         public ObservableCollection<Entity> Entities { get; }
+
         public ICommand AddNewEntityCommand { get; }
 
         public EntitiesViewModel()
