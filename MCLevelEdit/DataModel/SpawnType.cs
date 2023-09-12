@@ -12,5 +12,5 @@
         Flyer8 = 11
     }
 
-    public record SpawnType(Spawn spawn) : EntityType(((int)spawn), spawn.ToString());
+    public record SpawnType(Spawn spawn) : EntityType(3, ((int)spawn), spawn.ToString());
 }

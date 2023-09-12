@@ -57,5 +57,5 @@
         CrabEgg = 52
     }
 
-    public record EffectType(Effect effect) : EntityType(((int)effect), effect.ToString());
+    public record EffectType(Effect effect) : EntityType(10, ((int)effect), effect.ToString());
 }

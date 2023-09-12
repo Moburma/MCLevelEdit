@@ -10,5 +10,5 @@
         Dome2 = 5
     }
 
-    public record ScenaryType(Scenary scenary) : EntityType(((int)scenary), scenary.ToString());
+    public record ScenaryType(Scenary scenary) : EntityType(2, ((int)scenary), scenary.ToString());
 }
