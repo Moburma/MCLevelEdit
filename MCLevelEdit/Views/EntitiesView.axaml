@@ -7,6 +7,15 @@
              x:Class="MCLevelEdit.Views.EntitiesView"
              x:DataType="vm:EntitiesViewModel">
   <DockPanel>
+    <DockPanel.Resources>
+      <DataTemplate x:Key="EntityTypeTemplate" >
+        <ComboBox x:Name="cboEntityType"
+                  SelectedValueBinding="{Binding Key}"
+                  ItemsSource="{Binding TypeIds, RelativeSource={RelativeSource AncestorType={x:Type vm:EntitiesViewModel}}}"
+                  Margin="0">
+        </ComboBox>
+      </DataTemplate>
+    </DockPanel.Resources>
     <DataGrid DockPanel.Dock="Top"
               ItemsSource="{Binding Entities}"
               IsReadOnly="True"
@@ -16,11 +25,9 @@
         <DataGridTextColumn Header="Num"
                             Width="1*"
                             Binding="{Binding Id}"/>
-        <DataGridTextColumn Header="Class"
-                    Width="1*" />
-        <DataGridTextColumn Header="Type"
-                    Width="2*"
-                    Binding="{Binding EntityType}"/>
+        <DataGridTemplateColumn Header="Type" 
+                                Width="2*"
+                                CellTemplate="{StaticResource EntityTypeTemplate}" />
         <DataGridTextColumn Header="Model"
             Width="1*"/>
         <DataGridTextColumn Header="Name"
