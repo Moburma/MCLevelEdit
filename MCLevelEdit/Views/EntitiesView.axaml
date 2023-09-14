@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
+             xmlns:m="clr-namespace:MCLevelEdit.DataModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MCLevelEdit.Views.EntitiesView"
              x:DataType="vm:EntitiesViewModel">
@@ -10,9 +11,10 @@
     <DockPanel.Resources>
       <DataTemplate x:Key="EntityTypeTemplate" >
         <ComboBox x:Name="cboEntityType"
-                  SelectedValueBinding="{Binding Key}"
-                  ItemsSource="{Binding TypeIds, RelativeSource={RelativeSource AncestorType={x:Type vm:EntitiesViewModel}}}"
-                  Margin="0">
+               SelectedItem="{Binding}"
+               ItemsSource="{Binding Source={x:Static vm:EntitiesViewModel.TypeIds}}"
+               x:DataType="m:Entity"
+               Margin="0">
         </ComboBox>
       </DataTemplate>
     </DockPanel.Resources>
