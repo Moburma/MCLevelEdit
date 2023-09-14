@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
              xmlns:m="clr-namespace:MCLevelEdit.DataModel"
-             xmlns:local="clr-namespace:MCLevelEdit.ViewModels.EntitiesViewModel;assembly=MCLevelEdit" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:local="clr-namespace:MCLevelEdit.ViewModels.EntitiesViewModel;assembly=MCLevelEdit"  
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MCLevelEdit.Views.EntitiesView"
              x:DataType="vm:EntitiesViewModel">
@@ -18,6 +17,7 @@
                SelectedValue="{Binding EntityType.TypeId, Converter={StaticResource typeIdConverter}}"
                ItemsSource="{Binding Source={x:Static vm:EntitiesViewModel.TypeIds}}"
                x:DataType="m:Entity"
+               HorizontalAlignment="Stretch"
                Margin="0">
         </ComboBox>
       </DataTemplate>
@@ -33,7 +33,7 @@
                             Binding="{Binding Id}"/>
         <DataGridTextColumn Header="Class"
                             Width="1*"
-                            Binding="{Binding Path=EntityType.TypeId.(sys:Int32)}"/>
+                            Binding="{Binding EntityType.TypeId}"/>
         <DataGridTemplateColumn Header="Type" 
                                 Width="2*"
                                 CellTemplate="{StaticResource EntityTypeTemplate}" />
