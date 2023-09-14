@@ -12,7 +12,12 @@ namespace MCLevelEdit.ViewModels
     public class EntitiesViewModel : ViewModelBase
     {
         public ObservableCollection<Entity> Entities { get; }
-        public ObservableCollection<KeyValuePair<int, string>> TypeIds { get; }
+        
+        public static KeyValuePair<int, string>[] TypeIds { get; } =
+            Enum.GetValues(typeof(TypeId))
+            .Cast<int>()
+            .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x)))
+            .ToArray();
 
         public ICommand AddNewEntityCommand { get; }
 
@@ -23,10 +28,6 @@ namespace MCLevelEdit.ViewModels
                 new Entity(0, DataModel.EntityTypes.I.Spawns[(int)Spawn.Flyer1], new Position(0, 0))
             };
             
-            TypeIds = new ObservableCollection<KeyValuePair<int, string>>(Enum.GetValues(typeof(TypeId))
-                .Cast<int>()
-                .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x))));
-
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
                 int i = 0;
