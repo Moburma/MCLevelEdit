@@ -28,28 +28,35 @@ namespace MCLevelEdit.ViewModels
     public class EntitiesViewModel : ViewModelBase
     {
         public ObservableCollection<Entity> Entities { get; }
-        
+        public ICommand AddNewEntityCommand { get; }
+        public ICommand DeleteEntityCommand { get; }
+
         public static KeyValuePair<int, string>[] TypeIds { get; } =
             Enum.GetValues(typeof(TypeId))
             .Cast<int>()
             .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x)))
             .ToArray();
 
-        public ICommand AddNewEntityCommand { get; }
-
         public EntitiesViewModel()
         {
-            Entities = new ObservableCollection<Entity>
-            {
-                new Entity(0, DataModel.EntityTypes.I.Spawns[(int)Spawn.Flyer1], new Position(0, 0)),
-                new Entity(1, DataModel.EntityTypes.I.Creatures[(int)Creature.Archer], new Position(0, 1))
-            };
+            Entities = new ObservableCollection<Entity>();
+            AddEntity(EntityTypes.I.Spawns[(int)Spawn.Flyer1]);
+            AddEntity(EntityTypes.I.Creatures[(int)Creature.Archer]);
 
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
-                int i = 0;
-                // Code here will be executed when the button is clicked.
+                AddEntity(new EntityType(TypeId.None, 0, ""));
             });
+
+            DeleteEntityCommand = ReactiveCommand.Create(() =>
+            {
+                Entities.RemoveAt(0);
+            });
+        }
+
+        private void AddEntity(EntityType entityType)
+        {
+            Entities.Add(new Entity(Entities.Count + 1, entityType, new Position(0, 0)));
         }
     }
 }
