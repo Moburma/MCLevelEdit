@@ -32,8 +32,8 @@
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <ComboBox x:Name="cboEntityType"
-                        SelectedItem="{Binding EntityType.TypeId, Converter={StaticResource typeIdConverter}}"
-                        SelectedValue="{Binding EntityType.TypeId, Converter={StaticResource typeIdConverter}}"
+                        SelectedItem="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
+                        SelectedValue="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
                         ItemsSource="{Binding Source={x:Static vm:EntitiesViewModel.TypeIds}}"
                         x:DataType="m:Entity"
                         HorizontalAlignment="Stretch"

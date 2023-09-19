@@ -1,9 +1,9 @@
-﻿using Avalonia.Data.Converters;
+﻿using Avalonia.Collections;
+using Avalonia.Data.Converters;
 using MCLevelEdit.DataModel;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reactive.Linq;
@@ -15,19 +15,19 @@ namespace MCLevelEdit.ViewModels
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var typeId = (TypeId)value;
-            return new KeyValuePair<int, string>(key: (int)typeId, value: Enum.GetName(typeof(TypeId), typeId));
+            var entityType = (EntityType)value;
+            return new KeyValuePair<int, string>(key: (int)entityType.TypeId, value: Enum.GetName(typeof(TypeId), entityType.TypeId));
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return (TypeId)((KeyValuePair<int, string>)value).Key;
+            return EntityTypeExtensions.GetEntityFromTypeId((TypeId)((KeyValuePair<int, string>)value).Key);
         }
     }
 
     public class EntitiesViewModel : ViewModelBase
     {
-        public ObservableCollection<Entity> Entities { get; }
+        public AvaloniaList<Entity> Entities { get; }
         public ICommand AddNewEntityCommand { get; }
         public ICommand DeleteEntityCommand { get; }
 
@@ -39,7 +39,7 @@ namespace MCLevelEdit.ViewModels
 
         public EntitiesViewModel()
         {
-            Entities = new ObservableCollection<Entity>();
+            Entities = new AvaloniaList<Entity>();
             AddEntity(EntityTypes.I.Spawns[(int)Spawn.Flyer1]);
             AddEntity(EntityTypes.I.Creatures[(int)Creature.Archer]);
 
