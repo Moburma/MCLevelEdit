@@ -56,7 +56,11 @@ namespace MCLevelEdit.ViewModels
 
         private void AddEntity(EntityType entityType)
         {
-            Entities.Add(new Entity(Entities.Count + 1, entityType, new Position(0, 0)));
+            Entities.Add(new Entity() { 
+                Id = Entities.Count + 1, 
+                EntityType = entityType, 
+                Position = new Position(0, 0) 
+            });
         }
     }
 }
