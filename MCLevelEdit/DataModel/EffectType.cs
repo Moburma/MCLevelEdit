@@ -1,4 +1,6 @@
-﻿namespace MCLevelEdit.DataModel
+﻿using Avalonia.Media;
+
+namespace MCLevelEdit.DataModel
 {
     public enum Effect
     {
@@ -57,5 +59,8 @@
         CrabEgg = 52
     }
 
-    public record EffectType(Effect effect) : EntityType(TypeId.Effect, ((int)effect), effect.ToString());
+    public class EffectType : EntityType
+    {
+        public EffectType(Effect effect) : base(TypeId.Effect, ((int)effect), effect.ToString()) { }
+    }
 }

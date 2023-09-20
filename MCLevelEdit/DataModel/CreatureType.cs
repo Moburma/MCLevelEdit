@@ -15,5 +15,8 @@
         Emu = 10
     }
 
-    public record CreatureType(Creature creature) : EntityType(TypeId.Creature, ((int)creature), creature.ToString());
+    public class CreatureType : EntityType
+    {
+        public CreatureType(Creature creature) : base(TypeId.Creature, ((int)creature), creature.ToString()) { }
+    }
 }
