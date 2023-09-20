@@ -16,31 +16,29 @@ namespace MCLevelEdit.DataModel
     public class EntityType : ObservableObject
     {
         private TypeId _typeId;
-        private int _id;
-        private string _name;
+        private EntityChildType _child;
 
         public TypeId TypeId
         {
             get { return _typeId; }
             set { SetProperty(ref _typeId, value); }
         }
-        public int Id
+        public EntityChildType Child
         {
-            get { return _id; }
-            set { SetProperty(ref _id, value); }
-        }
-
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
+            get { return _child; }
+            set { 
+                SetProperty(ref _child, value); 
+            }
         }
 
         public EntityType(TypeId typeId, int id, string name)
         {
             _typeId = typeId;
-            _id = id;
-            _name = name;
+            _child = new EntityChildType()
+            {
+                Id = id,
+                Name = name
+            };
         }
     };
 
@@ -63,32 +61,32 @@ namespace MCLevelEdit.DataModel
             }
         }
 
-        public static KeyValuePairViewModel[] GetEntityTypesFromTypeId(this TypeId typeId)
+        public static EntityChildType[] GetChildTypesFromTypeId(this TypeId typeId)
         {
             switch (typeId)
             {
                 case TypeId.Scenary:
                     return Enum.GetValues(typeof(Scenary))
                         .Cast<int>()
-                        .Select(x => new KeyValuePairViewModel(){ Key = x, Value = Enum.GetName(typeof(Scenary), x) })
+                        .Select(x => new EntityChildType(){ Id = x, Name = Enum.GetName(typeof(Scenary), x) })
                         .ToArray();
                 case TypeId.Spawn:
                     return Enum.GetValues(typeof(Spawn))
                         .Cast<int>()
-                        .Select(x => new KeyValuePairViewModel() { Key = x, Value = Enum.GetName(typeof(Spawn), x) })
+                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Spawn), x) })
                         .ToArray();
                 case TypeId.Creature:
                     return Enum.GetValues(typeof(Creature))
                         .Cast<int>()
-                        .Select(x => new KeyValuePairViewModel() { Key = x, Value = Enum.GetName(typeof(Creature), x) })
+                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Creature), x) })
                         .ToArray();
                 case TypeId.Effect:
                     return Enum.GetValues(typeof(Effect))
                         .Cast<int>()
-                        .Select(x => new KeyValuePairViewModel() { Key = x, Value = Enum.GetName(typeof(Effect), x) })
+                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Effect), x) })
                         .ToArray();
                 default:
-                    return new KeyValuePairViewModel[0];
+                    return new EntityChildType[0];
             }
         }
     }

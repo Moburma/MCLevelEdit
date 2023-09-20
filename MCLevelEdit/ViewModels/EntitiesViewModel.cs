@@ -25,6 +25,20 @@ namespace MCLevelEdit.ViewModels
         }
     }
 
+    public class TypeConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            var entityType = (EntityType)value;
+            return new KeyValuePair<int, string>(key: (int)entityType.TypeId, value: Enum.GetName(typeof(TypeId), entityType.TypeId));
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            return ((EntityChildType)value).Id;
+        }
+    }
+
     public class EntitiesViewModel : ViewModelBase
     {
         public AvaloniaList<Entity> Entities { get; }
@@ -37,11 +51,12 @@ namespace MCLevelEdit.ViewModels
             .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x)))
             .ToArray();
 
+        public static AvaloniaList<EntityChildType> Types { get; set; }
+
         public EntitiesViewModel()
         {
             Entities = new AvaloniaList<Entity>();
             AddEntity(EntityTypes.I.Spawns[(int)Spawn.Flyer1]);
-            AddEntity(EntityTypes.I.Creatures[(int)Creature.Archer]);
 
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
