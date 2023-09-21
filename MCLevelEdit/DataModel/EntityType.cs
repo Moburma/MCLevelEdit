@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MCLevelEdit.DataModel
@@ -17,6 +18,22 @@ namespace MCLevelEdit.DataModel
     {
         private TypeId _typeId;
         private EntityChildType _child;
+
+        public EntityChildType[] ChildTypes
+        {
+            get
+            {
+                var T = EntityTypeExtensions.GetEnumTypeFromTypeId(_typeId);
+                if (T is not null)
+                {
+                    return Enum.GetValues(T)?
+                            .Cast<int>()
+                            .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(T, x) })
+                            .ToArray();
+                }
+                return new EntityChildType[] { };
+            }
+        }
 
         public TypeId TypeId
         {
@@ -40,6 +57,7 @@ namespace MCLevelEdit.DataModel
                 Name = name
             };
         }
+
     };
 
     public static class EntityTypeExtensions
@@ -61,32 +79,20 @@ namespace MCLevelEdit.DataModel
             }
         }
 
-        public static EntityChildType[] GetChildTypesFromTypeId(this TypeId typeId)
+        public static Type GetEnumTypeFromTypeId(this TypeId typeId)
         {
             switch (typeId)
             {
                 case TypeId.Scenary:
-                    return Enum.GetValues(typeof(Scenary))
-                        .Cast<int>()
-                        .Select(x => new EntityChildType(){ Id = x, Name = Enum.GetName(typeof(Scenary), x) })
-                        .ToArray();
+                    return typeof(Scenary);
                 case TypeId.Spawn:
-                    return Enum.GetValues(typeof(Spawn))
-                        .Cast<int>()
-                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Spawn), x) })
-                        .ToArray();
+                    return typeof(Spawn);
                 case TypeId.Creature:
-                    return Enum.GetValues(typeof(Creature))
-                        .Cast<int>()
-                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Creature), x) })
-                        .ToArray();
+                    return typeof(Creature);
                 case TypeId.Effect:
-                    return Enum.GetValues(typeof(Effect))
-                        .Cast<int>()
-                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Effect), x) })
-                        .ToArray();
+                    return typeof(Effect);
                 default:
-                    return new EntityChildType[0];
+                    return null;
             }
         }
     }

@@ -25,17 +25,31 @@ namespace MCLevelEdit.ViewModels
         }
     }
 
-    public class TypeConverter : IValueConverter
+    public class EntityTypeToNameConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var entityType = (EntityType)value;
-            return new KeyValuePair<int, string>(key: (int)entityType.TypeId, value: Enum.GetName(typeof(TypeId), entityType.TypeId));
+            var entityType = (KeyValuePair<int, string>)value;
+            return entityType.Value;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return ((EntityChildType)value).Id;
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EntityChildTypeToNameConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            var entityChildType = (EntityChildType)value;
+            return entityChildType?.Name;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -50,8 +64,6 @@ namespace MCLevelEdit.ViewModels
             .Cast<int>()
             .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x)))
             .ToArray();
-
-        public static AvaloniaList<EntityChildType> Types { get; set; }
 
         public EntitiesViewModel()
         {

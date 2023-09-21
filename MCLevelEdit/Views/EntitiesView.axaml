@@ -12,7 +12,8 @@
         RowDefinitions="*,50">
     <Grid.Resources>
       <vm:TypeIdConverter x:Key="typeIdConverter"/>
-      <vm:TypeConverter x:Key="typeConverter"/>
+      <vm:EntityTypeToNameConverter x:Key="entityTypeToNameConverter"/>
+      <vm:EntityChildTypeToNameConverter x:Key="entityChildTypeToNameConverter"/>
     </Grid.Resources>
     <DataGrid Grid.Row="0"
               Grid.Column="0"
@@ -35,6 +36,7 @@
               <ComboBox x:Name="cboEntityType"
                         SelectedItem="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
                         SelectedValue="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
+                        DisplayMemberBinding="{Binding .TypeId, Converter={StaticResource entityTypeToNameConverter}}"
                         ItemsSource="{Binding Source={x:Static vm:EntitiesViewModel.TypeIds}}"
                         x:DataType="m:Entity"
                         HorizontalAlignment="Stretch"
@@ -55,8 +57,8 @@
               <ComboBox x:Name="cboEntityChildType"
                         SelectedItem="{Binding EntityType.Child}"
                         SelectedValue="{Binding EntityType.Child}"
-                        DisplayMemberBinding="{Binding EntityType.Child.Name}"
-                        ItemsSource="{Binding Source={x:Static vm:EntitiesViewModel.Types}}"
+                        DisplayMemberBinding="{Binding .Name, Converter={StaticResource entityChildTypeToNameConverter}}"
+                        ItemsSource="{Binding EntityType.ChildTypes}"
                         x:DataType="m:Entity"
                         HorizontalAlignment="Stretch"
                         Margin="0">

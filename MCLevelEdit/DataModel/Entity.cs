@@ -1,6 +1,7 @@
 ﻿using Avalonia.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MCLevelEdit.ViewModels;
+using System.Collections.Generic;
 
 namespace MCLevelEdit.DataModel
 {
@@ -25,19 +26,7 @@ namespace MCLevelEdit.DataModel
         public EntityType EntityType
         {
             get { return _entityType; }
-            set {
-                if (EntitiesViewModel.Types is null)
-                {
-                    EntitiesViewModel.Types = new AvaloniaList<EntityChildType>(EntityTypeExtensions.GetChildTypesFromTypeId(value.TypeId));
-                }
-                else
-                {
-                    EntitiesViewModel.Types.Clear();
-                    EntitiesViewModel.Types.AddRange(EntityTypeExtensions.GetChildTypesFromTypeId(value.TypeId));
-                }
-                value.Child = EntitiesViewModel.Types[0];
-                SetProperty(ref _entityType, value); 
-            }
+            set { SetProperty(ref _entityType, value); }
         }
     };
 }
