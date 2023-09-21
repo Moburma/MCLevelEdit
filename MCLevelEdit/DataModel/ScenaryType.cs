@@ -1,4 +1,7 @@
-﻿namespace MCLevelEdit.DataModel
+﻿using System;
+using System.Linq;
+
+namespace MCLevelEdit.DataModel
 {
     public enum Scenary
     {
@@ -12,6 +15,24 @@
 
     public class ScenaryType : EntityType
     {
+        private static EntityChildType[] _childTypes;
+
         public ScenaryType(Scenary scenary) : base(TypeId.Scenary, ((int)scenary), scenary.ToString()) { }
+
+        public override EntityChildType[] ChildTypes
+        {
+            get
+            {
+                if (_childTypes is null)
+                {
+                    _childTypes = Enum.GetValues(typeof(Scenary))
+                        .Cast<int>()
+                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Scenary), x) })
+                        .ToArray();
+                }
+
+                return _childTypes;
+            }
+        }
     }
 }

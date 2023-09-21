@@ -19,18 +19,10 @@ namespace MCLevelEdit.DataModel
         private TypeId _typeId;
         private EntityChildType _child;
 
-        public EntityChildType[] ChildTypes
+        public virtual EntityChildType[] ChildTypes
         {
             get
             {
-                var T = EntityTypeExtensions.GetEnumTypeFromTypeId(_typeId);
-                if (T is not null)
-                {
-                    return Enum.GetValues(T)?
-                            .Cast<int>()
-                            .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(T, x) })
-                            .ToArray();
-                }
                 return new EntityChildType[] { };
             }
         }
@@ -76,23 +68,6 @@ namespace MCLevelEdit.DataModel
                     return new EffectType(Effect.Unknown0);
                 default:
                     return new EntityType(typeId, 0, "");
-            }
-        }
-
-        public static Type GetEnumTypeFromTypeId(this TypeId typeId)
-        {
-            switch (typeId)
-            {
-                case TypeId.Scenary:
-                    return typeof(Scenary);
-                case TypeId.Spawn:
-                    return typeof(Spawn);
-                case TypeId.Creature:
-                    return typeof(Creature);
-                case TypeId.Effect:
-                    return typeof(Effect);
-                default:
-                    return null;
             }
         }
     }

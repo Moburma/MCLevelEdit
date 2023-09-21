@@ -1,4 +1,7 @@
-﻿namespace MCLevelEdit.DataModel
+﻿using System;
+using System.Linq;
+
+namespace MCLevelEdit.DataModel
 {
     public enum Creature
     {
@@ -17,6 +20,24 @@
 
     public class CreatureType : EntityType
     {
+        private static EntityChildType[] _childTypes;
+
         public CreatureType(Creature creature) : base(TypeId.Creature, ((int)creature), creature.ToString()) { }
+
+        public override EntityChildType[] ChildTypes
+        {
+            get
+            {
+                if (_childTypes is null)
+                {
+                    _childTypes = Enum.GetValues(typeof(Creature))
+                        .Cast<int>()
+                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Creature), x) })
+                        .ToArray();
+                }
+
+                return _childTypes;
+            }
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace MCLevelEdit.DataModel
+﻿using System;
+using System.Linq;
+
+namespace MCLevelEdit.DataModel
 {
     public enum Spawn
     {
@@ -14,6 +17,24 @@
 
     public class SpawnType : EntityType
     {
+        private static EntityChildType[] _childTypes;
+
         public SpawnType(Spawn spawn) : base(TypeId.Spawn, ((int)spawn), spawn.ToString()) { }
+
+        public override EntityChildType[] ChildTypes
+        {
+            get
+            {
+                if (_childTypes is null)
+                {
+                    _childTypes = Enum.GetValues(typeof(Spawn))
+                        .Cast<int>()
+                        .Select(x => new EntityChildType() { Id = x, Name = Enum.GetName(typeof(Spawn), x) })
+                        .ToArray();
+                }
+
+                return _childTypes;
+            }
+        }
     }
 }
