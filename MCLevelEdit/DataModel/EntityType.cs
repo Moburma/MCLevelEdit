@@ -29,6 +29,7 @@ namespace MCLevelEdit.DataModel
             get { return _typeId; }
             set { SetProperty(ref _typeId, value); }
         }
+
         public EntityChildType Child
         {
             get { return _child; }

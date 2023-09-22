@@ -22,7 +22,7 @@ namespace MCLevelEdit.DataModel
             {
                 var i = 0;
                 int.TryParse(value.ToString(), out i);
-                return (i < 0 || i > 255 ? 0 : i);
+                return (i < 0 || i > (Map.Size - 1) ? 0 : i);
             }
             return 0;
         }
