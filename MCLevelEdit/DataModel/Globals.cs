@@ -3,5 +3,6 @@
     public class Globals
     {
         public const ushort MAX_MAP_SIZE = 256;
+        public const string APP_DIRECTORY = "MCLevelEdit";
     }
 }

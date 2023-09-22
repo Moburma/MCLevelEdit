@@ -1,12 +1,74 @@
-﻿using MCLevelEdit.DataModel;
+﻿using Avalonia;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using MCLevelEdit.Avalonia;
+using MCLevelEdit.DataModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MCLevelEdit.Services
 {
     internal class MapService
     {
+        public Task<WriteableBitmap> GenerateBitmapAsync(Map map)
+        {
+            return Task.Run(() =>
+            {
+                WriteableBitmap bitmap = new WriteableBitmap(
+                    new PixelSize(Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE),
+                    new Vector(96, 96), // DPI (dots per inch)
+                    PixelFormat.Rgba8888);
+
+                var Entities = GetEntities(map);
+
+                foreach(var entity in Entities)
+                {
+                    DrawEntity(entity, bitmap);
+                }
+
+                //var result = SaveBitmap(bitmap).Result;
+
+                return bitmap;
+            });
+        }
+
+        public Task<bool> SaveBitmap(WriteableBitmap bitmap)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    string pathTempDir = Path.Combine(Path.GetTempPath(), Globals.APP_DIRECTORY);
+                    Directory.CreateDirectory(pathTempDir);
+
+                    using (var file = new FileStream(Path.Combine(pathTempDir, "Temp.png"), FileMode.Create))
+                    {
+                        bitmap.Save(file);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Exception saving png: {ex.Message}");
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+        public void DrawEntity(Entity entity, WriteableBitmap bitmap)
+        {
+            using (var fb = bitmap.Lock())
+            {
+                //TODO: All entities are red atm
+                fb.SetPixel(entity.Position.X, entity.Position.Y, Color.FromArgb(128,255,0,0));
+            }
+        }
+
         public Map CreateNewMap(ushort size = 256)
         {
             var squares = new Square[size, size];

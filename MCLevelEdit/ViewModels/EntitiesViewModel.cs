@@ -1,6 +1,7 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Data.Converters;
 using MCLevelEdit.DataModel;
+using MCLevelEdit.Services;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 
 namespace MCLevelEdit.ViewModels
-{ 
+{
     public class EntityChildTypeToNameConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -27,6 +28,9 @@ namespace MCLevelEdit.ViewModels
 
     public class EntitiesViewModel : ViewModelBase
     {
+        MapService _mapService = new MapService();
+        Map _map;
+
         public AvaloniaList<Entity> Entities { get; }
         public ICommand AddNewEntityCommand { get; }
         public ICommand DeleteEntityCommand { get; }
@@ -39,7 +43,10 @@ namespace MCLevelEdit.ViewModels
 
         public EntitiesViewModel()
         {
+            _map = _mapService.CreateNewMap();
+
             Entities = new AvaloniaList<Entity>();
+
             AddEntity(EntityTypes.I.Spawns[(int)Spawn.Flyer1]);
 
             AddNewEntityCommand = ReactiveCommand.Create(() =>
@@ -55,11 +62,17 @@ namespace MCLevelEdit.ViewModels
 
         private void AddEntity(EntityType entityType)
         {
-            Entities.Add(new Entity() { 
-                Id = Entities.Count + 1, 
-                EntityType = entityType, 
-                Position = new Position(0, 0) 
-            });
+            var newEntity = new Entity()
+            {
+                Id = Entities.Count + 1,
+                EntityType = entityType,
+                Position = new Position(Entities.Count + 1, 0)
+            };
+
+            Entities.Add(newEntity);
+
+            _mapService.AddEntity(_map, newEntity);
+            var image = _mapService.GenerateBitmapAsync(_map).Result;
         }
     }
 }
