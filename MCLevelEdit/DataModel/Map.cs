@@ -4,8 +4,6 @@ namespace MCLevelEdit.DataModel
 {
     public class Map : ObservableObject
     {
-        public static ushort Size = 256;
-
         private Square[,] _squares;
 
         public Square[,] Squares
@@ -17,10 +15,9 @@ namespace MCLevelEdit.DataModel
             }
         }
 
-        public Map(Square[, ] squares, ushort size)
+        public Map(Square[, ] squares)
         {
             _squares = squares;
-            Size = size;
         }
     }
 }
