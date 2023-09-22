@@ -11,8 +11,8 @@
   <Grid ColumnDefinitions="*"
         RowDefinitions="*,50">
     <Grid.Resources>
-      <vm:TypeIdConverter x:Key="typeIdConverter"/>
-      <vm:EntityTypeToNameConverter x:Key="entityTypeToNameConverter"/>
+      <m:TypeIdConverter x:Key="typeIdConverter"/>
+      <m:EntityTypeToNameConverter x:Key="entityTypeToNameConverter"/>
       <vm:EntityChildTypeToNameConverter x:Key="entityChildTypeToNameConverter"/>
       <m:PositionConverter x:Key="positionConverter"/>
     </Grid.Resources>

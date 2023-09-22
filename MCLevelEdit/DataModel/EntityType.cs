@@ -1,4 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Data.Converters;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
+using System.Globalization;
+using System;
 
 namespace MCLevelEdit.DataModel
 {
@@ -9,6 +13,42 @@ namespace MCLevelEdit.DataModel
         Spawn = 3,
         Creature = 5,
         Effect = 10
+    }
+
+    public class TypeIdConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value is not null)
+            {
+                var entityType = (EntityType)value;
+                return new KeyValuePair<int, string>(key: (int)entityType.TypeId, value: Enum.GetName(typeof(TypeId), entityType.TypeId));
+            }
+            return null;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            return EntityTypeExtensions.GetEntityFromTypeId((TypeId)((KeyValuePair<int, string>)value).Key);
+        }
+    }
+
+    public class EntityTypeToNameConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value != null)
+            {
+                var entityType = (KeyValuePair<int, string>)value;
+                return entityType.Value;
+            }
+            return null;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class EntityType : ObservableObject

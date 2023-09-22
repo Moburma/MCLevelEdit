@@ -10,35 +10,7 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 
 namespace MCLevelEdit.ViewModels
-{
-    public class TypeIdConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            var entityType = (EntityType)value;
-            return new KeyValuePair<int, string>(key: (int)entityType.TypeId, value: Enum.GetName(typeof(TypeId), entityType.TypeId));
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            return EntityTypeExtensions.GetEntityFromTypeId((TypeId)((KeyValuePair<int, string>)value).Key);
-        }
-    }
-
-    public class EntityTypeToNameConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            var entityType = (KeyValuePair<int, string>)value;
-            return entityType.Value;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
+{ 
     public class EntityChildTypeToNameConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
