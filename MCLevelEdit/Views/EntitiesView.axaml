@@ -14,6 +14,7 @@
       <vm:TypeIdConverter x:Key="typeIdConverter"/>
       <vm:EntityTypeToNameConverter x:Key="entityTypeToNameConverter"/>
       <vm:EntityChildTypeToNameConverter x:Key="entityChildTypeToNameConverter"/>
+      <m:PositionConverter x:Key="positionConverter"/>
     </Grid.Resources>
     <DataGrid Grid.Row="0"
               Grid.Column="0"
@@ -66,12 +67,26 @@
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
-        <DataGridTextColumn Header="XPos"
-            Width="1*"
-            Binding="{Binding Position.X}"/>
-        <DataGridTextColumn Header="YPos"
-            Width="1*"
-            Binding="{Binding Position.Y}"/>
+        <DataGridTemplateColumn Header="XPos"
+            Width="1*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBox x:Name="txtPosX"
+                       Text="{Binding Position.X, Converter={StaticResource positionConverter}}">
+              </TextBox>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="YPos"
+            Width="1*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBox x:Name="txtPosY"
+                       Text="{Binding Position.Y, Converter={StaticResource positionConverter}}">
+              </TextBox>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
         <DataGridTextColumn Header="DisId"
             Width="1*"/>
         <DataGridTextColumn Header="SwSz"
