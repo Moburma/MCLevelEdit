@@ -4,6 +4,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using MCLevelEdit.Avalonia;
 using MCLevelEdit.DataModel;
+using MCLevelEdit.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MCLevelEdit.Services
 {
-    internal class MapService
+    internal class MapService : IMapService
     {
         public Task<WriteableBitmap> GenerateBitmapAsync(Map map)
         {

@@ -6,6 +6,8 @@ namespace MCLevelEdit.DataModel
     {
         private Square[,] _squares;
 
+        public static Map Instance { get; set; }
+
         public Square[,] Squares
         {
             get { return _squares; }

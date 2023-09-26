@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 
 using MCLevelEdit.ViewModels;
 using MCLevelEdit.Views;
+using Splat;
 
 namespace MCLevelEdit;
 
@@ -16,6 +17,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Bootstrapper.Register(Locator.CurrentMutable, Locator.Current);
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow

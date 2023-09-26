@@ -1,4 +1,6 @@
-﻿namespace MCLevelEdit.ViewModels;
+﻿using Splat;
+
+namespace MCLevelEdit.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
@@ -6,6 +8,6 @@ public class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
-        EntitiesViewModel = new EntitiesViewModel();
+        EntitiesViewModel = Locator.Current.GetService<EntitiesViewModel>();
     }
 }

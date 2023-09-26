@@ -1,6 +1,7 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Data.Converters;
 using MCLevelEdit.DataModel;
+using MCLevelEdit.Interfaces;
 using MCLevelEdit.Services;
 using ReactiveUI;
 using System;
@@ -28,8 +29,8 @@ namespace MCLevelEdit.ViewModels
 
     public class EntitiesViewModel : ViewModelBase
     {
-        MapService _mapService = new MapService();
-        Map _map;
+        private readonly IMapService _mapService;
+        private Map _map;
 
         public AvaloniaList<Entity> Entities { get; }
         public ICommand AddNewEntityCommand { get; }
@@ -41,9 +42,14 @@ namespace MCLevelEdit.ViewModels
             .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x)))
             .ToArray();
 
-        public EntitiesViewModel()
+        public EntitiesViewModel(IMapService mapService)
         {
-            _map = _mapService.CreateNewMap();
+            _mapService = mapService;
+
+            if (Map.Instance is null)
+            {
+                _map = _mapService.CreateNewMap();
+            }
 
             Entities = new AvaloniaList<Entity>();
 
