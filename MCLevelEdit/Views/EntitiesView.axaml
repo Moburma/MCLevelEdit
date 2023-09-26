@@ -13,7 +13,7 @@
     <Grid.Resources>
       <m:TypeIdConverter x:Key="typeIdConverter"/>
       <m:EntityTypeToNameConverter x:Key="entityTypeToNameConverter"/>
-      <vm:EntityChildTypeToNameConverter x:Key="entityChildTypeToNameConverter"/>
+      <m:EntityChildTypeToNameConverter x:Key="entityChildTypeToNameConverter"/>
       <m:PositionConverter x:Key="positionConverter"/>
     </Grid.Resources>
     <DataGrid Grid.Row="0"

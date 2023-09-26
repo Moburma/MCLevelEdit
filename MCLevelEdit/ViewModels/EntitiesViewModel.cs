@@ -1,32 +1,15 @@
 ﻿using Avalonia.Collections;
-using Avalonia.Data.Converters;
 using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
-using MCLevelEdit.Services;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 
 namespace MCLevelEdit.ViewModels
 {
-    public class EntityChildTypeToNameConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            var entityChildType = (EntityChildType)value;
-            return entityChildType?.Name;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class EntitiesViewModel : ViewModelBase
     {
         private readonly IMapService _mapService;
