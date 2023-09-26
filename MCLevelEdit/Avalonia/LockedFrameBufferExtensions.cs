@@ -29,12 +29,9 @@ namespace MCLevelEdit.Avalonia
         public static void SetPixel(this ILockedFramebuffer framebuffer, int x, int y, Color color)
         {
             var pixel = framebuffer.GetPixel(x, y);
-
-            var alpha = color.A / 255.0;
-
-            pixel[0] = (byte)(color.R * alpha);
-            pixel[1] = (byte)(color.G * alpha);
-            pixel[2] = (byte)(color.B * alpha);
+            pixel[0] = (byte)(color.R);
+            pixel[1] = (byte)(color.G);
+            pixel[2] = (byte)(color.B);
             pixel[3] = color.A;
         }
     }

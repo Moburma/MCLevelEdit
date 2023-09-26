@@ -6,9 +6,7 @@ using MCLevelEdit.Avalonia;
 using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MCLevelEdit.Services
@@ -24,9 +22,11 @@ namespace MCLevelEdit.Services
                     new Vector(96, 96), // DPI (dots per inch)
                     PixelFormat.Rgba8888);
 
-                var Entities = GetEntities(map);
+                var Entities = map.Entities;
 
-                foreach(var entity in Entities)
+                SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255,0,0,0), bitmap);
+
+                foreach (var entity in Entities)
                 {
                     DrawEntity(entity, bitmap);
                 }
@@ -66,7 +66,21 @@ namespace MCLevelEdit.Services
             using (var fb = bitmap.Lock())
             {
                 //TODO: All entities are red atm
-                fb.SetPixel(entity.Position.X, entity.Position.Y, Color.FromArgb(128,255,0,0));
+                fb.SetPixel(entity.Position.X, entity.Position.Y, Color.FromArgb(255,255,0,0));
+            }
+        }
+
+        private void SetBackground(Rect rect, Color colour, WriteableBitmap bitmap)
+        {
+            using (var fb = bitmap.Lock())
+            {
+                for (int x = (int)rect.X; x < rect.Width; x++)
+                {
+                    for (int y = (int)rect.Y; y < rect.Height; y++)
+                    {
+                        fb.SetPixel(x, y, colour);
+                    }
+                }
             }
         }
 
@@ -82,34 +96,15 @@ namespace MCLevelEdit.Services
                 }
             }
 
-            return new Map(squares);
-        }
-
-        public IEnumerable<Entity> GetEntities(Map map)
-        {   
-            var entities = new List<Entity>();
-
-            var width = Math.Sqrt(map.Squares.Length);
-            for (int x = 0; x < width; x++)
+            var map = new Map(squares);
+            var newEntity = new Entity()
             {
-                for (int y = 0; y < width; y++)
-                {
-                    if (map.Squares[x, y]?.Entities?.Count() > 0)
-                        entities.AddRange(map.Squares[x, y].Entities);
-                }
-            }
-            return entities;
-        }
-
-        public void AddEntity(Map map, Entity entity)
-        {
-            //TODO: Validation needed, this assumes for the moment that more than 1 entity can be on one square
-            map.Squares[entity.Position.X, entity.Position.Y]?.Entities?.Add(entity);
-        }
-
-        public void RemoveEntity(Map map, Entity entity)
-        {
-            map.Squares[entity.Position.X, entity.Position.Y]?.Entities?.Remove(entity);
+                Id = 0,
+                EntityType = EntityTypes.I.Spawns[(int)Spawn.Flyer1],
+                Position = new Position(128, 128)
+            };
+            map.AddEntity(newEntity);
+            return map;
         }
     }
 }

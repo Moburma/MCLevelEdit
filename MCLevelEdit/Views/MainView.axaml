@@ -8,7 +8,10 @@
              x:Class="MCLevelEdit.Views.MainView"
              x:DataType="vm:MainViewModel">
   <DockPanel Margin="10" LastChildFill="True">
-    <TextBlock Padding="10" DockPanel.Dock="Left">Map</TextBlock>
+    <Image DockPanel.Dock="Left"
+           MaxWidth="256"
+           MinHeight="256"
+           Source="{Binding PreviewImage}"></Image>
     <views:EntitiesView Padding="10"
                         DockPanel.Dock="Right"
                         DataContext="{Binding EntitiesViewModel}" />

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using DynamicData;
 using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
 using ReactiveUI;
@@ -12,9 +13,6 @@ namespace MCLevelEdit.ViewModels
 {
     public class EntitiesViewModel : ViewModelBase
     {
-        private readonly IMapService _mapService;
-        private Map _map;
-
         public AvaloniaList<Entity> Entities { get; }
         public ICommand AddNewEntityCommand { get; }
         public ICommand DeleteEntityCommand { get; }
@@ -25,22 +23,25 @@ namespace MCLevelEdit.ViewModels
             .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x)))
             .ToArray();
 
-        public EntitiesViewModel(IMapService mapService)
+        public EntitiesViewModel(IMapService mapService) : base(mapService)
         {
-            _mapService = mapService;
-
-            if (Map.Instance is null)
-            {
-                _map = _mapService.CreateNewMap();
-            }
-
             Entities = new AvaloniaList<Entity>();
+            Entities.AddRange(_map.Entities);
 
-            AddEntity(EntityTypes.I.Spawns[(int)Spawn.Flyer1]);
+            foreach(var entity in _map.Entities)
+            {
+                entity.Position.PropertyChanged += Entity_PropertyChanged;
+                entity.EntityType.PropertyChanged += Entity_PropertyChanged;
+                entity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;
+            }
 
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
-                AddEntity(new EntityType(TypeId.None, 0, ""));
+                var entity = AddEntity(new EntityType(TypeId.None, 0, ""), new Position(0,0));
+                entity.Position.PropertyChanged += Entity_PropertyChanged;
+                entity.EntityType.PropertyChanged += Entity_PropertyChanged;
+                entity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;
+                Entities.Add(entity);
             });
 
             DeleteEntityCommand = ReactiveCommand.Create(() =>
@@ -49,19 +50,9 @@ namespace MCLevelEdit.ViewModels
             });
         }
 
-        private void AddEntity(EntityType entityType)
+        private void Entity_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var newEntity = new Entity()
-            {
-                Id = Entities.Count + 1,
-                EntityType = entityType,
-                Position = new Position(Entities.Count + 1, 0)
-            };
-
-            Entities.Add(newEntity);
-
-            _mapService.AddEntity(_map, newEntity);
-            var image = _mapService.GenerateBitmapAsync(_map).Result;
+            RefreshPreviewAsync();
         }
     }
 }

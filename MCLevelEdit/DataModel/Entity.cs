@@ -1,7 +1,4 @@
-﻿using Avalonia.Collections;
-using CommunityToolkit.Mvvm.ComponentModel;
-using MCLevelEdit.ViewModels;
-using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace MCLevelEdit.DataModel
 {
