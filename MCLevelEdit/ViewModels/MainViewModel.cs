@@ -1,5 +1,4 @@
-﻿using MCLevelEdit.DataModel;
-using MCLevelEdit.Interfaces;
+﻿using MCLevelEdit.Interfaces;
 using Splat;
 
 namespace MCLevelEdit.ViewModels;

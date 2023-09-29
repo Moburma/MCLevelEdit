@@ -22,9 +22,19 @@ namespace MCLevelEdit.Services
                     new Vector(96, 96), // DPI (dots per inch)
                     PixelFormat.Rgba8888);
 
+                return DrawBitmapAsync(map, bitmap);
+            });
+        }
+
+        public Task<WriteableBitmap> DrawBitmapAsync(Map map, WriteableBitmap bitmap)
+        {
+            return Task.Run(() =>
+            {
                 var Entities = map.Entities;
 
-                SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255,0,0,0), bitmap);
+                Random rnd = new Random();
+
+                SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128)), bitmap);
 
                 foreach (var entity in Entities)
                 {
@@ -46,7 +56,7 @@ namespace MCLevelEdit.Services
                     string pathTempDir = Path.Combine(Path.GetTempPath(), Globals.APP_DIRECTORY);
                     Directory.CreateDirectory(pathTempDir);
 
-                    using (var file = new FileStream(Path.Combine(pathTempDir, "Temp.png"), FileMode.Create))
+                    using (var file = new FileStream(Path.Combine(pathTempDir, $"Temp.png"), FileMode.Create))
                     {
                         bitmap.Save(file);
                     }

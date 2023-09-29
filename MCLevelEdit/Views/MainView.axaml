@@ -11,7 +11,7 @@
     <Image DockPanel.Dock="Left"
            MaxWidth="256"
            MinHeight="256"
-           Source="{Binding PreviewImage}"></Image>
+           Source="{Binding Preview.Image}"></Image>
     <views:EntitiesView Padding="10"
                         DockPanel.Dock="Right"
                         DataContext="{Binding EntitiesViewModel}" />

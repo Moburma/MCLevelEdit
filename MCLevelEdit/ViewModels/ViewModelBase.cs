@@ -1,8 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Media.Imaging;
-using CommunityToolkit.Mvvm.ComponentModel;
-using DynamicData.Binding;
-using MCLevelEdit.DataModel;
+﻿using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
 using ReactiveUI;
 using System.Linq;
@@ -14,7 +10,7 @@ public class ViewModelBase : ReactiveObject
     protected readonly IMapService _mapService;
     protected Map _map;
 
-    public WriteableBitmap PreviewImage { get; set; }
+    public ObservableImage Preview { get; }
 
     public ViewModelBase(IMapService mapService)
     {
@@ -25,15 +21,18 @@ public class ViewModelBase : ReactiveObject
             Map.Instance = _mapService.CreateNewMap();
         }
         _map = Map.Instance;
-        PreviewImage = _mapService.GenerateBitmapAsync(_map).Result;
+        Preview = new ObservableImage()
+        {
+            Image = _mapService.GenerateBitmapAsync(_map).Result
+        };
     }
 
-    protected void RefreshPreviewAsync()
+    protected async void RefreshPreviewAsync()
     {
-        _mapService.GenerateBitmapAsync(_map).ContinueWith((image) =>
-        {
-            PreviewImage = image.Result;
-        });
+        await _mapService.DrawBitmapAsync(_map, Preview.Image);
+        //{
+        //    PreviewImage = image.Result;
+        //});
     }
 
     protected Entity AddEntity(EntityType entityType, Position position)
