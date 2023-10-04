@@ -13,6 +13,7 @@ namespace MCLevelEdit.Services
 {
     internal class MapService : IMapService
     {
+        public static int index = 0;
         public Task<WriteableBitmap> GenerateBitmapAsync(Map map)
         {
             return Task.Run(() =>
@@ -56,10 +57,11 @@ namespace MCLevelEdit.Services
                     string pathTempDir = Path.Combine(Path.GetTempPath(), Globals.APP_DIRECTORY);
                     Directory.CreateDirectory(pathTempDir);
 
-                    using (var file = new FileStream(Path.Combine(pathTempDir, $"Temp.png"), FileMode.Create))
+                    using (var file = new FileStream(Path.Combine(pathTempDir, $"Temp{index}.png"), FileMode.Create))
                     {
                         bitmap.Save(file);
                     }
+                    index++;
                 }
                 catch (Exception ex)
                 {
