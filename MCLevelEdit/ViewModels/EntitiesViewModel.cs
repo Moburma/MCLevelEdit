@@ -26,10 +26,11 @@ namespace MCLevelEdit.ViewModels
         public EntitiesViewModel(IMapService mapService) : base(mapService)
         {
             Entities = new AvaloniaList<Entity>();
-            Entities.AddRange(_map.Entities);
+            Entities.AddRange(Map.Entities);
 
-            foreach(var entity in _map.Entities)
+            foreach(var entity in Map.Entities)
             {
+                entity.PropertyChanged += Entity_PropertyChanged;
                 entity.Position.PropertyChanged += Entity_PropertyChanged;
                 entity.EntityType.PropertyChanged += Entity_PropertyChanged;
                 entity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;
@@ -38,6 +39,7 @@ namespace MCLevelEdit.ViewModels
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
                 var entity = AddEntity(new EntityType(TypeId.None, 0, ""), new Position(0,0));
+                entity.PropertyChanged += Entity_PropertyChanged;
                 entity.Position.PropertyChanged += Entity_PropertyChanged;
                 entity.EntityType.PropertyChanged += Entity_PropertyChanged;
                 entity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;

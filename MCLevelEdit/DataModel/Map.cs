@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,15 @@ namespace MCLevelEdit.DataModel
         public static Map Instance { get; set; }
 
         private IList<Entity> _entities;
+        private WriteableBitmap _preview;
 
         public IList<Entity> Entities { get { return _entities; } }
+
+        public WriteableBitmap Preview
+        {
+            get { return _preview; }
+            set { SetProperty(ref _preview, value); }
+        }
 
         public Map()
         {

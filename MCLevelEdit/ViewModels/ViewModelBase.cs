@@ -2,15 +2,14 @@
 using MCLevelEdit.Interfaces;
 using ReactiveUI;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MCLevelEdit.ViewModels;
 
 public class ViewModelBase : ReactiveObject
 {
     protected readonly IMapService _mapService;
-    protected Map _map;
-
-    public ObservableImage Preview { get; }
+    public Map Map { get; set; }
 
     public ViewModelBase(IMapService mapService)
     {
@@ -20,30 +19,23 @@ public class ViewModelBase : ReactiveObject
         {
             Map.Instance = _mapService.CreateNewMap();
         }
-        _map = Map.Instance;
-        Preview = new ObservableImage()
-        {
-            Image = _mapService.GenerateBitmapAsync(_map).Result
-        };
+        Map = Map.Instance;
     }
 
-    protected async void RefreshPreviewAsync()
+    protected async Task RefreshPreviewAsync()
     {
-        await _mapService.DrawBitmapAsync(_map, Preview.Image);
-        //{
-        //    PreviewImage = image.Result;
-        //});
+        Map.Preview = await _mapService.GenerateBitmapAsync(Map);
     }
 
     protected Entity AddEntity(EntityType entityType, Position position)
     {
         var newEntity = new Entity()
         {
-            Id = _map.Entities.Count(),
+            Id = Map.Entities.Count(),
             EntityType = entityType,
             Position = position
         };
-        _map.AddEntity(newEntity);
+        Map.AddEntity(newEntity);
         RefreshPreviewAsync();
         return newEntity;
     }
