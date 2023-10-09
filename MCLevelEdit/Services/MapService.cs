@@ -33,9 +33,10 @@ namespace MCLevelEdit.Services
             {
                 var Entities = map.Entities;
 
-                Random rnd = new Random();
+                //Random rnd = new Random();
+                //SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128)), bitmap);
 
-                SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128)), bitmap);
+                SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, 0, 0, 0), bitmap);
 
                 foreach (var entity in Entities)
                 {
@@ -77,8 +78,7 @@ namespace MCLevelEdit.Services
         {
             using (var fb = bitmap.Lock())
             {
-                //TODO: All entities are red atm
-                fb.SetPixel(entity.Position.X, entity.Position.Y, Color.FromArgb(255,255,0,0));
+                fb.SetPixel(entity.Position.X, entity.Position.Y, entity.EntityType.Colour);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Media;
+using System;
 using System.Linq;
 
 namespace MCLevelEdit.DataModel
@@ -64,7 +65,7 @@ namespace MCLevelEdit.DataModel
     {
         private static EntityChildType[] _childTypes;
 
-        public EffectType(Effect effect) : base(TypeId.Effect, ((int)effect), effect.ToString()) { }
+        public EffectType(Effect effect) : base(TypeId.Effect, Color.FromRgb(255, 0, 255), ((int)effect), effect.ToString()) { }
 
         public override EntityChildType[] ChildTypes
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Media;
+using System;
 using System.Linq;
 
 namespace MCLevelEdit.DataModel
@@ -17,7 +18,7 @@ namespace MCLevelEdit.DataModel
     {
         private static EntityChildType[] _childTypes;
 
-        public ScenaryType(Scenary scenary) : base(TypeId.Scenary, ((int)scenary), scenary.ToString()) { }
+        public ScenaryType(Scenary scenary) : base(TypeId.Scenary, Color.FromRgb(0,255,0), ((int)scenary), scenary.ToString()) { }
 
         public override EntityChildType[] ChildTypes
         {

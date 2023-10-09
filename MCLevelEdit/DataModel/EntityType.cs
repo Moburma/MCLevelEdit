@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
 using System.Globalization;
 using System;
+using Avalonia.Media;
 
 namespace MCLevelEdit.DataModel
 {
@@ -12,7 +13,10 @@ namespace MCLevelEdit.DataModel
         Scenary = 2,
         Spawn = 3,
         Creature = 5,
-        Effect = 10
+        Weather = 7,
+        Effect = 10,
+        Switch = 11,
+        Spell = 12
     }
 
     public class TypeIdConverter : IValueConverter
@@ -55,6 +59,7 @@ namespace MCLevelEdit.DataModel
     {
         private TypeId _typeId;
         private EntityChildType _child;
+        private Color _colour;
 
         public virtual EntityChildType[] ChildTypes
         {
@@ -78,9 +83,15 @@ namespace MCLevelEdit.DataModel
             }
         }
 
-        public EntityType(TypeId typeId, int id, string name)
+        public Color Colour
+        {
+            get { return _colour; }
+        }
+
+        public EntityType(TypeId typeId, Color colour, int id, string name)
         {
             _typeId = typeId;
+            _colour = colour;
             _child = new EntityChildType()
             {
                 Id = id,
@@ -105,7 +116,7 @@ namespace MCLevelEdit.DataModel
                 case TypeId.Effect:
                     return new EffectType(Effect.Unknown0);
                 default:
-                    return new EntityType(typeId, 0, "");
+                    return new EntityType(typeId, Color.FromRgb(255,255,255), 0, "");
             }
         }
     }
