@@ -115,8 +115,14 @@ namespace MCLevelEdit.DataModel
                     return new CreatureType(Creature.Vulture);
                 case TypeId.Effect:
                     return new EffectType(Effect.Unknown0);
+                case TypeId.Weather:
+                    return new WeatherType(Weather.Wind);
+                case TypeId.Spell:
+                    return new SpellType(Spell.Fireball);
+                case TypeId.Switch:
+                    return new SwitchType(Switch.HiddenInside);
                 default:
-                    return new EntityType(typeId, Color.FromRgb(255,255,255), 0, "");
+                    return new EntityType(typeId, Color.FromRgb(0, 0, 0), 0, "");
             }
         }
     }

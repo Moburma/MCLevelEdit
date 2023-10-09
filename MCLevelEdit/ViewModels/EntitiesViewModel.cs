@@ -39,7 +39,7 @@ namespace MCLevelEdit.ViewModels
 
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
-                var entity = AddEntity(new EntityType(TypeId.None, Color.FromRgb(255, 255, 255), 0, ""), new Position(0,0));
+                var entity = AddEntity(new EntityType(TypeId.None, Color.FromRgb(0, 0, 0), 0, ""), new Position(0,0));
                 entity.PropertyChanged += Entity_PropertyChanged;
                 entity.Position.PropertyChanged += Entity_PropertyChanged;
                 entity.EntityType.PropertyChanged += Entity_PropertyChanged;
