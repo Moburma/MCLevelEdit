@@ -2,10 +2,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
+             xmlns:views="clr-namespace:MCLevelEdit.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="MCLevelEdit.Views.MapView">
-  <Grid x:Name="grdMap"
-        ColumnDefinitions="*"
-        RowDefinitions="30*,*,30*">
+             x:Class="MCLevelEdit.Views.MapView"
+             x:DataType="vm:MapViewModel">
+  <Grid ColumnDefinitions="*"
+        RowDefinitions="50,*"> 
+    <views:CreateEntityView x:Name="vmCreateEntity"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            DockPanel.Dock="Top" />
+    <Image x:Name="imgPreview"
+           Grid.Row="1" 
+           Grid.Column="0"
+           MaxWidth="256"
+           MinHeight="256"
+           Source="{Binding Map.Instance.Preview}"></Image>
   </Grid>
 </UserControl>

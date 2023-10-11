@@ -1,4 +1,5 @@
-﻿using MCLevelEdit.DataModel;
+﻿using Avalonia.Collections;
+using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
 using ReactiveUI;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace MCLevelEdit.ViewModels;
 public class ViewModelBase : ReactiveObject
 {
     protected readonly IMapService _mapService;
+
+    public AvaloniaList<Entity> Entities { get; }
     public Map Map { get; set; }
 
     public ViewModelBase(IMapService mapService)
@@ -20,6 +23,8 @@ public class ViewModelBase : ReactiveObject
             Map.Instance = _mapService.CreateNewMap();
         }
         Map = Map.Instance;
+
+        Entities = new AvaloniaList<Entity>();
     }
 
     protected async Task RefreshPreviewAsync()

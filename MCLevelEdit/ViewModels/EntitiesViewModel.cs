@@ -1,5 +1,4 @@
-﻿using Avalonia.Collections;
-using Avalonia.Media;
+﻿using Avalonia.Media;
 using DynamicData;
 using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
@@ -14,7 +13,6 @@ namespace MCLevelEdit.ViewModels
 {
     public class EntitiesViewModel : ViewModelBase
     {
-        public AvaloniaList<Entity> Entities { get; }
         public ICommand AddNewEntityCommand { get; }
         public ICommand DeleteEntityCommand { get; }
 
@@ -26,9 +24,6 @@ namespace MCLevelEdit.ViewModels
 
         public EntitiesViewModel(IMapService mapService) : base(mapService)
         {
-            Entities = new AvaloniaList<Entity>();
-            Entities.AddRange(Map.Entities);
-
             foreach(var entity in Map.Entities)
             {
                 entity.PropertyChanged += Entity_PropertyChanged;

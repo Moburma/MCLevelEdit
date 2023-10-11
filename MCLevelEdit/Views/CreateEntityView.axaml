@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
+             xmlns:m="clr-namespace:MCLevelEdit.DataModel"
+             xmlns:local="clr-namespace:MCLevelEdit.ViewModels.CreateEntityViewModel;assembly=MCLevelEdit"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="50"
+             x:Class="MCLevelEdit.Views.CreateEntityView"
+             x:DataType="vm:CreateEntityViewModel">
+  <Grid ColumnDefinitions="1*,1*"
+        RowDefinitions="*">
+    <ComboBox x:Name="cboEntityType"
+              Margin="5,0"
+              Grid.Row="0"
+              Grid.Column="0"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Stretch"
+              ItemsSource="{Binding Source={x:Static vm:CreateEntityViewModel.TypeIds}}">
+    </ComboBox>
+    <Button x:Name="btnAdd"
+            Margin="5,0"
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center">
+      Add
+    </Button>
+  </Grid>
+</UserControl>

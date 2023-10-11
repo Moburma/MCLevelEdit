@@ -7,13 +7,20 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MCLevelEdit.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <DockPanel Margin="10" LastChildFill="True">
-    <Image DockPanel.Dock="Left"
-           MaxWidth="256"
-           MinHeight="256"
-           Source="{Binding Map.Instance.Preview}"></Image>
-    <views:EntitiesView Padding="10"
-                        DockPanel.Dock="Right"
-                        DataContext="{Binding EntitiesViewModel}" />
-  </DockPanel>
+  <Grid ColumnDefinitions="*"
+        RowDefinitions="*,50">
+    <views:MapView Grid.Row="0"
+                   Grid.Column="0"
+                   Margin="10"
+                   DataContext="{Binding EntitiesViewModel}" />
+    <Button x:Name="btnEdit"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="10"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Command="{Binding EditEntitiesCommand}">
+      Edit Entities
+    </Button>
+  </Grid>
 </UserControl>
