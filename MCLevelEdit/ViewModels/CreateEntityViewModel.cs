@@ -9,7 +9,7 @@ namespace MCLevelEdit.ViewModels
 {
     public class CreateEntityViewModel : ReactiveObject
     { 
-        public Entity Entity { get; set; }
+        public Entity Entity { get; private set; }
 
         public static KeyValuePair<int, string>[] TypeIds { get; } =
             Enum.GetValues(typeof(TypeId))
@@ -19,7 +19,7 @@ namespace MCLevelEdit.ViewModels
 
         public CreateEntityViewModel(IMapService mapService)
         {
-
+            Entity = new Entity();
         }
     }
 }

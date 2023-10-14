@@ -12,7 +12,7 @@
     <views:MapView Grid.Row="0"
                    Grid.Column="0"
                    Margin="10"
-                   DataContext="{Binding EntitiesViewModel}" />
+                   DataContext="{Binding MapViewModel}" />
     <Button x:Name="btnEdit"
             Grid.Row="1"
             Grid.Column="0"

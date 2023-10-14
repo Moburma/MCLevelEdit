@@ -13,6 +13,9 @@ namespace MCLevelEdit
             services.RegisterLazySingleton<IMapService>(() => new MapService());
             services.RegisterLazySingleton(() => new MainViewModel(resolver.GetService<IMapService>()));
             services.RegisterLazySingleton(() => new EntitiesViewModel(resolver.GetService<IMapService>()));
+            services.RegisterLazySingleton(() => new MapViewModel(resolver.GetService<IMapService>()));
+            services.RegisterLazySingleton(() => new CreateEntityViewModel(resolver.GetService<IMapService>()));
+            services.RegisterLazySingleton(() => new CreateTerrainViewModel(resolver.GetService<IMapService>()));
         }
     }
 }

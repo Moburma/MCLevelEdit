@@ -13,7 +13,8 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            DockPanel.Dock="Top" />
+                            DockPanel.Dock="Top"
+                            DataContext="{Binding CreateEntityViewModel}"/>
     <Image x:Name="imgPreview"
            Grid.Row="1" 
            Grid.Column="0"
@@ -22,8 +23,8 @@
            Source="{Binding Map.Preview}"></Image>
     <views:CreateTerrainView x:Name="vmCreateTerrain"
                              Grid.Row="2"
-                             Grid.Column="0">
-      
+                             Grid.Column="0"
+                             DataContext="{Binding CreateTerrainViewModel}">
     </views:CreateTerrainView>
   </Grid>
 </UserControl>
