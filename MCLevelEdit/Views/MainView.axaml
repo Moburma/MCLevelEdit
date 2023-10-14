@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
              xmlns:views="clr-namespace:MCLevelEdit.Views"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
              x:Class="MCLevelEdit.Views.MainView"
              x:DataType="vm:MainViewModel">
   <Grid ColumnDefinitions="*"

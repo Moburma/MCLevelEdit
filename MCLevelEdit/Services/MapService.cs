@@ -99,13 +99,6 @@ namespace MCLevelEdit.Services
         public Map CreateNewMap(ushort size = 256)
         {
             var map = new Map();
-            var newEntity = new Entity()
-            {
-                Id = 0,
-                EntityType = EntityTypes.I.Spawns[(int)Spawn.Flyer1],
-                Position = new Position(128, 128)
-            };
-            map.AddEntity(newEntity);
             return map;
         }
     }

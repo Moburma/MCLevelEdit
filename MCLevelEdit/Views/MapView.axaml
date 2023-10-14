@@ -4,20 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
              xmlns:views="clr-namespace:MCLevelEdit.Views"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
              x:Class="MCLevelEdit.Views.MapView"
              x:DataType="vm:MapViewModel">
-  <Grid ColumnDefinitions="*"
-        RowDefinitions="50,*"> 
+  <Grid ColumnDefinitions="256,*"
+        RowDefinitions="50,256,*">
     <views:CreateEntityView x:Name="vmCreateEntity"
                             Grid.Row="0"
                             Grid.Column="0"
+                            Grid.ColumnSpan="2"
                             DockPanel.Dock="Top" />
     <Image x:Name="imgPreview"
            Grid.Row="1" 
            Grid.Column="0"
            MaxWidth="256"
            MinHeight="256"
-           Source="{Binding Map.Instance.Preview}"></Image>
+           Source="{Binding Map.Preview}"></Image>
+    <views:CreateTerrainView x:Name="vmCreateTerrain"
+                             Grid.Row="2"
+                             Grid.Column="0">
+      
+    </views:CreateTerrainView>
   </Grid>
 </UserControl>

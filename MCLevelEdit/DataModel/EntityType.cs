@@ -9,7 +9,6 @@ namespace MCLevelEdit.DataModel
 {
     public enum TypeId
     {
-        None = 0,
         Scenary = 2,
         Spawn = 3,
         Creature = 5,

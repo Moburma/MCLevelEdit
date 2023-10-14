@@ -1,0 +1,141 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
+             xmlns:m="clr-namespace:MCLevelEdit.DataModel"
+             xmlns:local="clr-namespace:MCLevelEdit.ViewModels.CreateTerrainViewModel;assembly=MCLevelEdit"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+             x:Class="MCLevelEdit.Views.CreateTerrainView">
+  <Grid Margin="5"
+        ColumnDefinitions="1*,1*"
+        RowDefinitions="40,30,30,30,30,30,30,30,30,30,30,30,*">
+    <Label Grid.Column="0"
+           Grid.Row="0"
+           Grid.ColumnSpan="2"
+           HorizontalAlignment="Center">
+      Map Generation Variables
+    </Label>
+    <Label Grid.Column="0"
+           Grid.Row="1"
+           HorizontalAlignment="Left">
+      Seed:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="1"
+             HorizontalAlignment="Stretch"
+             Text="{Binding Seed}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="2"
+           HorizontalAlignment="Left">
+      Offset:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="2"
+             HorizontalAlignment="Stretch"
+             Text="{Binding Offset}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="3"
+           HorizontalAlignment="Left">
+      Raise:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="3"
+             HorizontalAlignment="Stretch"
+             Text="{Binding Raise}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="4"
+           HorizontalAlignment="Left">
+      Gnarl:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="4"
+             HorizontalAlignment="Stretch"
+             Text="{Binding Gnarl}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="5"
+           HorizontalAlignment="Left">
+      River:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="5"
+             HorizontalAlignment="Stretch"
+             Text="{Binding River}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="6"
+           HorizontalAlignment="Left">
+      Source:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="6"
+             HorizontalAlignment="Stretch"
+             Text="{Binding Source}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="7"
+           HorizontalAlignment="Left">
+      SnLin:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="7"
+             HorizontalAlignment="Stretch"
+             Text="{Binding SnLin}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="8"
+           HorizontalAlignment="Left">
+      SnFlt:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="8"
+             HorizontalAlignment="Stretch"
+             Text="{Binding SnFlt}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="9"
+           HorizontalAlignment="Left">
+      BhLin:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="9"
+             HorizontalAlignment="Stretch"
+             Text="{Binding BhLin}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="10"
+           HorizontalAlignment="Left">
+      BhFlt:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="10"
+             HorizontalAlignment="Stretch"
+             Text="{Binding BhFlt}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+    <Label Grid.Column="0"
+           Grid.Row="11"
+           HorizontalAlignment="Left">
+      RkSte:
+    </Label>
+    <TextBox Grid.Column="1"
+             Grid.Row="11"
+             HorizontalAlignment="Stretch"
+             Text="{Binding RkSte}"
+             x:DataType="m:TerrainGenerationParameters">
+    </TextBox>
+  </Grid>
+</UserControl>
