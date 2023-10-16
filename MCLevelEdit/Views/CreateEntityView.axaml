@@ -3,25 +3,111 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
+             xmlns:c="clr-namespace:MCLevelEdit.Converter"
              xmlns:m="clr-namespace:MCLevelEdit.DataModel"
              xmlns:local="clr-namespace:MCLevelEdit.ViewModels.CreateEntityViewModel;assembly=MCLevelEdit"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="50"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="70"
              x:Class="MCLevelEdit.Views.CreateEntityView"
              x:DataType="vm:CreateEntityViewModel">
-  <Grid ColumnDefinitions="1*,1*"
-        RowDefinitions="*">
+  <Grid ColumnDefinitions="2*,2*,1*,1*,1*,1*,1*"
+        RowDefinitions="20,30">
+    <Grid.Resources>
+      <m:TypeIdConverter x:Key="typeIdConverter"/>
+      <m:EntityTypeToNameConverter x:Key="entityTypeToNameConverter"/>
+      <m:EntityChildTypeToNameConverter x:Key="entityChildTypeToNameConverter"/>
+      <m:PositionConverter x:Key="positionConverter"/>
+      <c:UInt16ToStringConverter x:Key="uInt16ToStringConverter"/>
+    </Grid.Resources>
+    <Label Margin="5,0"
+           Grid.Column="0"
+           Grid.Row="0"
+           HorizontalAlignment="Left">
+      Class:
+    </Label>
+    <Label Margin="5,0"
+           Grid.Column="1"
+           Grid.Row="0"
+           HorizontalAlignment="Left">
+      Model:
+    </Label>
+    <Label Margin="5,0"
+           Grid.Column="2"
+           Grid.Row="0"
+           HorizontalAlignment="Left">
+      PosX:
+    </Label>
+    <Label Margin="5,0"
+           Grid.Column="3"
+           Grid.Row="0"
+           HorizontalAlignment="Left">
+      PosY:
+    </Label>
+    <Label Margin="5,0"
+           Grid.Column="4"
+           HorizontalAlignment="Left">
+      Parent:
+    </Label>
+    <Label Margin="5,0"
+           Grid.Column="5"
+           HorizontalAlignment="Left">
+      Child:
+    </Label>
     <ComboBox x:Name="cboEntityType"
               Margin="5,0"
-              Grid.Row="0"
+              Grid.Row="1"
               Grid.Column="0"
               VerticalAlignment="Center"
               HorizontalAlignment="Stretch"
+              x:DataType="m:Entity"
+              SelectedItem="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
+              SelectedValue="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
+              DisplayMemberBinding="{Binding .TypeId, Converter={StaticResource entityTypeToNameConverter}}"
               ItemsSource="{Binding Source={x:Static vm:CreateEntityViewModel.TypeIds}}">
     </ComboBox>
+    <ComboBox x:Name="cboEntityChildType"
+              Margin="5,0"
+              Grid.Row="1"
+              Grid.Column="1"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Stretch"
+              x:DataType="m:Entity"
+              SelectedItem="{Binding EntityType.Child}"
+              SelectedValue="{Binding EntityType.Child}"
+              DisplayMemberBinding="{Binding .Name, Converter={StaticResource entityChildTypeToNameConverter}}"
+              ItemsSource="{Binding EntityType.ChildTypes}">
+    </ComboBox>
+    <TextBox x:Name="txtPosX"
+             Margin="5,10"
+             Grid.Row="1"
+             Grid.Column="2"
+             x:DataType="m:Entity"
+             Text="{Binding Position.X, Converter={StaticResource positionConverter}}">
+    </TextBox>
+    <TextBox x:Name="txtPosY"
+             Margin="5,10"
+             Grid.Row="1"
+             Grid.Column="3"
+             x:DataType="m:Entity"
+             Text="{Binding Position.Y, Converter={StaticResource positionConverter}}">
+    </TextBox>
+    <TextBox x:Name="txtParent"
+             Margin="5,10"
+             Grid.Row="1"
+             Grid.Column="4"
+             x:DataType="m:Entity"
+             Text="{Binding Parent, Converter={StaticResource uInt16ToStringConverter}}">
+    </TextBox>
+    <TextBox x:Name="txtChild"
+             Margin="5,10"
+             Grid.Row="1"
+             Grid.Column="5"
+             x:DataType="m:Entity"
+             Text="{Binding Child, Converter={StaticResource uInt16ToStringConverter}}">
+    </TextBox>
     <Button x:Name="btnAdd"
             Margin="5,0"
-            Grid.Row="0"
-            Grid.Column="1"
+            Grid.Row="1"
+            Grid.Column="6"
             VerticalAlignment="Center"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Center">
