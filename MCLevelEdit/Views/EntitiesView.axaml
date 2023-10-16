@@ -94,10 +94,28 @@
             Width="1*"/>
         <DataGridTextColumn Header="SwId"
             Width="1*"/>
-        <DataGridTextColumn Header="Parent"
-            Width="1*"/>
-        <DataGridTextColumn Header="Child"
-                            Width="1*"/>
+        <DataGridTemplateColumn Header="Parent"
+            Width="1*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBox x:Name="txtParent"
+                       Text="{Binding Parent}"
+                       x:DataType="m:Entity">
+              </TextBox>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Child"
+                            Width="1*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBox x:Name="txtChild"
+                       Text="{Binding Child}"
+                       x:DataType="m:Entity">
+              </TextBox>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
         <DataGridTemplateColumn Width="1*" >
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>

@@ -7,6 +7,8 @@ namespace MCLevelEdit.DataModel
         private int _id;
         private Position _position;
         private EntityType _entityType;
+        private int _parent;
+        private int _child;
 
         public int Id
         {
@@ -24,6 +26,18 @@ namespace MCLevelEdit.DataModel
         {
             get { return _entityType; }
             set { SetProperty(ref _entityType, value); }
+        }
+
+        public int Parent
+        {
+            get { return _parent; }
+            set { SetProperty(ref _parent, value); }
+        }
+
+        public int Child
+        {
+            get { return _child; }
+            set { SetProperty(ref _child, value); }
         }
     };
 }
