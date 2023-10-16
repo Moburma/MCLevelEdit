@@ -19,11 +19,11 @@ namespace MCLevelEdit.Converter
         {
             if (value != null)
             {
-                var i = 0;
-                int.TryParse(value.ToString(), out i);
-                return (i < 0 || i > ushort.MaxValue ? 0 : i);
+                ushort i = 0;
+                ushort.TryParse(value.ToString(), out i);
+                return i;
             }
-            return 0;
+            return (ushort)0;
         }
     }
 }
