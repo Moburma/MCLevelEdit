@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MCLevelEdit.ViewModels"
+             xmlns:c="clr-namespace:MCLevelEdit.Converter"
              xmlns:m="clr-namespace:MCLevelEdit.DataModel"
              xmlns:local="clr-namespace:MCLevelEdit.ViewModels.EntitiesViewModel;assembly=MCLevelEdit"  
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -15,6 +16,7 @@
       <m:EntityTypeToNameConverter x:Key="entityTypeToNameConverter"/>
       <m:EntityChildTypeToNameConverter x:Key="entityChildTypeToNameConverter"/>
       <m:PositionConverter x:Key="positionConverter"/>
+      <c:UInt16ToStringConverter x:Key="uInt16ToStringConverter"/>
     </Grid.Resources>
     <DataGrid Grid.Row="0"
               Grid.Column="0"
@@ -99,7 +101,7 @@
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <TextBox x:Name="txtParent"
-                       Text="{Binding Parent}"
+                       Text="{Binding Parent, Converter={StaticResource uInt16ToStringConverter}}"
                        x:DataType="m:Entity">
               </TextBox>
             </DataTemplate>
@@ -110,7 +112,7 @@
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <TextBox x:Name="txtChild"
-                       Text="{Binding Child}"
+                       Text="{Binding Child, Converter={StaticResource uInt16ToStringConverter}}"
                        x:DataType="m:Entity">
               </TextBox>
             </DataTemplate>
