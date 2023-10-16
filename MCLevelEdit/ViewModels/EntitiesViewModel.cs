@@ -24,33 +24,15 @@ namespace MCLevelEdit.ViewModels
 
         public EntitiesViewModel(IMapService mapService) : base(mapService)
         {
-            foreach(var entity in Map.Entities)
-            {
-                entity.PropertyChanged += Entity_PropertyChanged;
-                entity.Position.PropertyChanged += Entity_PropertyChanged;
-                entity.EntityType.PropertyChanged += Entity_PropertyChanged;
-                entity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;
-            }
-
             AddNewEntityCommand = ReactiveCommand.Create(() =>
             {
-                var entity = AddEntity(new ScenaryType(Scenary.Tree), new Position(0,0));
-                entity.PropertyChanged += Entity_PropertyChanged;
-                entity.Position.PropertyChanged += Entity_PropertyChanged;
-                entity.EntityType.PropertyChanged += Entity_PropertyChanged;
-                entity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;
-                Entities.Add(entity);
+                AddEntity(new ScenaryType(Scenary.Tree), new Position(0,0));
             });
 
             DeleteEntityCommand = ReactiveCommand.Create(() =>
             {
                 Entities.RemoveAt(0);
             });
-        }
-
-        private void Entity_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            RefreshPreviewAsync();
         }
     }
 }

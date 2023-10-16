@@ -33,9 +33,6 @@ namespace MCLevelEdit.Services
             {
                 var Entities = map.Entities;
 
-                //Random rnd = new Random();
-                //SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128), (byte)rnd.Next(0, 128)), bitmap);
-
                 SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, 0, 0, 0), bitmap);
 
                 foreach (var entity in Entities)

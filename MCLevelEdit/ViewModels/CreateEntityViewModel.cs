@@ -1,10 +1,10 @@
-﻿using Avalonia;
-using MCLevelEdit.DataModel;
+﻿using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace MCLevelEdit.ViewModels
 {
@@ -17,6 +17,8 @@ namespace MCLevelEdit.ViewModels
             get => _entity;
             set => this.RaiseAndSetIfChanged(ref _entity, value);
         }
+
+        public ICommand AddNewEntityCommand { get; }
 
         public static KeyValuePair<int, string>[] TypeIds { get; } =
             Enum.GetValues(typeof(TypeId))
@@ -32,6 +34,11 @@ namespace MCLevelEdit.ViewModels
                 EntityType = new SpawnType(Spawn.Flyer1),
                 Position = new Position(0, 0)
             };
+
+            AddNewEntityCommand = ReactiveCommand.Create(() =>
+            {
+                AddEntity(Entity.EntityType, Entity.Position, Entity.Parent, Entity.Child);
+            });
         }
     }
 }

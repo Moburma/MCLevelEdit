@@ -32,16 +32,37 @@ public class ViewModelBase : ReactiveObject
         Map.Preview = await _mapService.GenerateBitmapAsync(Map);
     }
 
-    protected Entity AddEntity(EntityType entityType, Position position)
+    protected Entity AddEntity(EntityType entityType, Position position, ushort parent = 0, ushort child = 0)
     {
         var newEntity = new Entity()
         {
             Id = Map.Entities.Count(),
             EntityType = entityType,
-            Position = position
+            Position = position,
+            Parent = parent,
+            Child = child
         };
+        return AddEntity(newEntity);
+    }
+
+    protected Entity AddEntity(Entity Entity)
+    {
+        var newEntity = Entity.Copy();
+
+        newEntity.PropertyChanged += Entity_PropertyChanged;
+        newEntity.Position.PropertyChanged += Entity_PropertyChanged;
+        newEntity.EntityType.PropertyChanged += Entity_PropertyChanged;
+        newEntity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;
+
         Map.AddEntity(newEntity);
+        Entities.Add(newEntity);
+
         RefreshPreviewAsync();
         return newEntity;
+    }
+
+    protected void Entity_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        RefreshPreviewAsync();
     }
 }

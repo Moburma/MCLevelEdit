@@ -58,9 +58,8 @@
               Grid.Column="0"
               VerticalAlignment="Center"
               HorizontalAlignment="Stretch"
-              x:DataType="m:Entity"
-              SelectedItem="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
-              SelectedValue="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
+              SelectedItem="{Binding Entity.EntityType, Converter={StaticResource typeIdConverter}}"
+              SelectedValue="{Binding Entity.EntityType, Converter={StaticResource typeIdConverter}}"
               DisplayMemberBinding="{Binding .TypeId, Converter={StaticResource entityTypeToNameConverter}}"
               ItemsSource="{Binding Source={x:Static vm:CreateEntityViewModel.TypeIds}}">
     </ComboBox>
@@ -70,39 +69,34 @@
               Grid.Column="1"
               VerticalAlignment="Center"
               HorizontalAlignment="Stretch"
-              x:DataType="m:Entity"
-              SelectedItem="{Binding EntityType.Child}"
-              SelectedValue="{Binding EntityType.Child}"
+              SelectedItem="{Binding Entity.EntityType.Child}"
+              SelectedValue="{Binding Entity.EntityType.Child}"
               DisplayMemberBinding="{Binding .Name, Converter={StaticResource entityChildTypeToNameConverter}}"
-              ItemsSource="{Binding EntityType.ChildTypes}">
+              ItemsSource="{Binding Entity.EntityType.ChildTypes}">
     </ComboBox>
     <TextBox x:Name="txtPosX"
              Margin="5,10"
              Grid.Row="1"
              Grid.Column="2"
-             x:DataType="m:Entity"
-             Text="{Binding Position.X, Converter={StaticResource positionConverter}}">
+             Text="{Binding Entity.Position.X, Converter={StaticResource positionConverter}}">
     </TextBox>
     <TextBox x:Name="txtPosY"
              Margin="5,10"
              Grid.Row="1"
              Grid.Column="3"
-             x:DataType="m:Entity"
-             Text="{Binding Position.Y, Converter={StaticResource positionConverter}}">
+             Text="{Binding Entity.Position.Y, Converter={StaticResource positionConverter}}">
     </TextBox>
     <TextBox x:Name="txtParent"
              Margin="5,10"
              Grid.Row="1"
              Grid.Column="4"
-             x:DataType="m:Entity"
-             Text="{Binding Parent, Converter={StaticResource uInt16ToStringConverter}}">
+             Text="{Binding Entity.Parent, Converter={StaticResource uInt16ToStringConverter}}">
     </TextBox>
     <TextBox x:Name="txtChild"
              Margin="5,10"
              Grid.Row="1"
              Grid.Column="5"
-             x:DataType="m:Entity"
-             Text="{Binding Child, Converter={StaticResource uInt16ToStringConverter}}">
+             Text="{Binding Entity.Child, Converter={StaticResource uInt16ToStringConverter}}">
     </TextBox>
     <Button x:Name="btnAdd"
             Margin="5,0"
@@ -110,7 +104,8 @@
             Grid.Column="6"
             VerticalAlignment="Center"
             HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Center">
+            HorizontalContentAlignment="Center"
+            Command="{Binding AddNewEntityCommand}">
       Add
     </Button>
   </Grid>
