@@ -51,5 +51,9 @@ namespace MCLevelEdit.DataModel
             _y = y;
         }
 
+        public Position Copy()
+        {
+            return new Position(_x, _y);
+        }
     };
 }

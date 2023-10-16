@@ -35,5 +35,10 @@ namespace MCLevelEdit.DataModel
             get { return _name; }
             set { SetProperty(ref _name, value); }
         }
+
+        public EntityChildType Copy()
+        {
+            return new EntityChildType { Id = Id, Name = Name };
+        }
     }
 }

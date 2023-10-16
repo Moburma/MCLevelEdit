@@ -98,6 +98,19 @@ namespace MCLevelEdit.DataModel
             };
         }
 
+        public EntityType(TypeId typeId, Color colour)
+        {
+            _typeId = typeId;
+            _colour = colour;
+        }
+
+        public EntityType Copy()
+        {
+            return new EntityType(_typeId, _colour)
+            {
+                Child = _child.Copy()
+            };
+        }
     };
 
     public static class EntityTypeExtensions
