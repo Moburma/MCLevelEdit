@@ -1,5 +1,4 @@
-﻿using Avalonia.Media;
-using DynamicData;
+﻿using DynamicData;
 using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
 using ReactiveUI;
@@ -29,9 +28,9 @@ namespace MCLevelEdit.ViewModels
                 AddEntity(new ScenaryType(Scenary.Tree), new Position(0,0));
             });
 
-            DeleteEntityCommand = ReactiveCommand.Create(() =>
+            DeleteEntityCommand = ReactiveCommand.Create<Entity>((entity) =>
             {
-                Entities.RemoveAt(0);
+                DeleteEntity(entity);
             });
         }
     }

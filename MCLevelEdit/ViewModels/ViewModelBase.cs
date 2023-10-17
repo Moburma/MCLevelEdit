@@ -43,9 +43,9 @@ public class ViewModelBase : ReactiveObject
         return AddEntity(newEntity);
     }
 
-    protected Entity AddEntity(Entity Entity)
+    protected Entity AddEntity(Entity entity)
     {
-        var newEntity = Entity.Copy();
+        var newEntity = entity.Copy();
 
         newEntity.PropertyChanged += Entity_PropertyChanged;
         newEntity.Position.PropertyChanged += Entity_PropertyChanged;
@@ -54,9 +54,15 @@ public class ViewModelBase : ReactiveObject
 
         Map.AddEntity(newEntity);
         this.RaisePropertyChanged(nameof(Entities));
-
         RefreshPreviewAsync();
         return newEntity;
+    }
+
+    protected void DeleteEntity(Entity entity)
+    {
+        Map.RemoveEntity(entity);
+        this.RaisePropertyChanged(nameof(Entities));
+        RefreshPreviewAsync();
     }
 
     protected void Entity_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

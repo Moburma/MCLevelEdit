@@ -39,7 +39,6 @@
                         SelectedValue="{Binding EntityType, Converter={StaticResource typeIdConverter}}"
                         DisplayMemberBinding="{Binding .TypeId, Converter={StaticResource entityTypeToNameConverter}}"
                         ItemsSource="{Binding Source={x:Static vm:EntitiesViewModel.TypeIds}}"
-                        x:DataType="m:Entity"
                         HorizontalAlignment="Stretch"
                         Margin="0">
               </ComboBox>
@@ -55,7 +54,6 @@
                         SelectedValue="{Binding EntityType.Child}"
                         DisplayMemberBinding="{Binding .Name, Converter={StaticResource entityChildTypeToNameConverter}}"
                         ItemsSource="{Binding EntityType.ChildTypes}"
-                        x:DataType="m:Entity"
                         HorizontalAlignment="Stretch"
                         Margin="0">
               </ComboBox>
@@ -93,8 +91,7 @@
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <TextBox x:Name="txtParent"
-                       Text="{Binding Parent, Converter={StaticResource uInt16ToStringConverter}}"
-                       x:DataType="m:Entity">
+                       Text="{Binding Parent, Converter={StaticResource uInt16ToStringConverter}}">
               </TextBox>
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
@@ -104,8 +101,7 @@
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <TextBox x:Name="txtChild"
-                       Text="{Binding Child, Converter={StaticResource uInt16ToStringConverter}}"
-                       x:DataType="m:Entity">
+                       Text="{Binding Child, Converter={StaticResource uInt16ToStringConverter}}">
               </TextBox>
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
@@ -115,8 +111,9 @@
             <DataTemplate>
               <Button HorizontalAlignment="Stretch"
                       HorizontalContentAlignment="Center"
-                      x:DataType="m:Entity"
-                      Margin="0">
+                      Margin="0"
+                      Command="{Binding .DeleteEntityCommand}"
+                      CommandParameter="{Binding .}">
                 Delete
               </Button>
             </DataTemplate>

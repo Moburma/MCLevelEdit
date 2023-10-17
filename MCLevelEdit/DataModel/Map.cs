@@ -39,6 +39,12 @@ namespace MCLevelEdit.DataModel
         public void RemoveEntity(Entity entity)
         {
             this.Entities.Remove(entity);
+
+            //Update Indexes
+            for(int i = 0; i < this.Entities.Count; i++)
+            {
+                this.Entities[i].Id = 0;
+            }
         }
     }
 }
