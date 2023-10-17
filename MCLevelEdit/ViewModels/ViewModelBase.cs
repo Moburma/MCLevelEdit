@@ -11,7 +11,7 @@ public class ViewModelBase : ReactiveObject
 {
     protected readonly IMapService _mapService;
 
-    public AvaloniaList<Entity> Entities { get; }
+    public AvaloniaList<Entity> Entities => new AvaloniaList<Entity>(Map.Instance.Entities);
     public Map Map { get; set; }
 
     public ViewModelBase(IMapService mapService)
@@ -23,8 +23,6 @@ public class ViewModelBase : ReactiveObject
             Map.Instance = _mapService.CreateNewMap();
         }
         Map = Map.Instance;
-
-        Entities = new AvaloniaList<Entity>();
     }
 
     protected async Task RefreshPreviewAsync()
@@ -55,7 +53,7 @@ public class ViewModelBase : ReactiveObject
         newEntity.EntityType.Child.PropertyChanged += Entity_PropertyChanged;
 
         Map.AddEntity(newEntity);
-        Entities.Add(newEntity);
+        this.RaisePropertyChanged(nameof(Entities));
 
         RefreshPreviewAsync();
         return newEntity;
