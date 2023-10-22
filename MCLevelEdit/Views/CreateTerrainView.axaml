@@ -12,7 +12,7 @@
              x:DataType="vm:CreateTerrainViewModel">
   <Grid Margin="5"
         ColumnDefinitions="1*,1*"
-        RowDefinitions="40,30,30,30,30,30,30,30,30,30,30,30,*">
+        RowDefinitions="40,30,30,30,30,30,30,30,30,30,30,30,40,*">
     <Grid.Resources>
       <c:UInt16ToStringConverter x:Key="uInt16ToStringConverter"/>
     </Grid.Resources>
@@ -132,5 +132,15 @@
              HorizontalAlignment="Stretch"
              Text="{Binding TerrainGenerationParameters.RkSte, Converter={StaticResource uInt16ToStringConverter}}">
     </TextBox>
+    <Button x:Name="btnGenerate" 
+            Grid.Column="0"
+            Grid.Row="12"
+            HorizontalAlignment="Center"
+            Grid.ColumnSpan="2"
+            Command="{Binding GenerateTerrainCommand}"
+            IsEnabled="{Binding GenerateTerrainButtonEnable}">
+      Generate Terrain
+    </Button>
+            
   </Grid>
 </UserControl>
