@@ -102,6 +102,7 @@ namespace MCLevelEdit.DataModel
         {
             _typeId = typeId;
             _colour = colour;
+            _child = ChildTypes[0];
         }
 
         public EntityType Copy()
