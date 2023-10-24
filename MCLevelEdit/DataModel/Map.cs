@@ -10,10 +10,11 @@ namespace MCLevelEdit.DataModel
         public static Map Instance { get; set; }
 
         private IList<Entity> _entities;
+        byte[] _heightMap;
         private WriteableBitmap _preview;
 
         public IList<Entity> Entities { get { return _entities; } }
-
+        public byte[] HeightMap { get { return _heightMap; } set { _heightMap = value; } }
         public WriteableBitmap Preview
         {
             get { return _preview; }
@@ -23,6 +24,7 @@ namespace MCLevelEdit.DataModel
         public Map()
         {
             _entities = new List<Entity>();
+            _heightMap = new byte[Globals.MAX_MAP_SIZE * Globals.MAX_MAP_SIZE];
         }
 
         public IList<Entity> GetEntitiesByPosition(Position postion)
