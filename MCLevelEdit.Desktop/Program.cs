@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Avalonia;
+using Avalonia.Logging;
 using Avalonia.ReactiveUI;
 
 namespace MCLevelEdit.Desktop;
@@ -16,9 +17,18 @@ class Program
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+    {
+
+#if DEBUG
+        LogEventLevel logLevel = LogEventLevel.Debug;
+#else
+        LogEventLevel logLevel = LogEventLevel.Warning;
+#endif
+
+        return AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace()
+            .LogToTrace(logLevel)
             .UseReactiveUI();
+    }
 }
