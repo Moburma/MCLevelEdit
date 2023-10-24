@@ -5,15 +5,13 @@ using Avalonia.Platform;
 using MCLevelEdit.Avalonia;
 using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
-using System;
-using System.IO;
+using MCLevelEdit.Utils;
 using System.Threading.Tasks;
 
 namespace MCLevelEdit.Services
 {
-    internal class MapService : IMapService
+    public class MapService : IMapService
     {
-        public static int index = 0;
         public Task<WriteableBitmap> GenerateBitmapAsync(Map map)
         {
             return Task.Run(() =>
@@ -33,7 +31,7 @@ namespace MCLevelEdit.Services
             {
                 var Entities = map.Entities;
 
-                SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, 0, 0, 0), bitmap);
+                BitmapUtils.SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(0, 0, 0, 0), bitmap);
 
                 foreach (var entity in Entities)
                 {
@@ -46,31 +44,6 @@ namespace MCLevelEdit.Services
             });
         }
 
-        public Task<bool> SaveBitmap(WriteableBitmap bitmap)
-        {
-            return Task.Run(() =>
-            {
-                try
-                {
-                    string pathTempDir = Path.Combine(Path.GetTempPath(), Globals.APP_DIRECTORY);
-                    Directory.CreateDirectory(pathTempDir);
-
-                    using (var file = new FileStream(Path.Combine(pathTempDir, $"Temp{index}.png"), FileMode.Create))
-                    {
-                        bitmap.Save(file);
-                    }
-                    index++;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Exception saving png: {ex.Message}");
-                    return false;
-                }
-
-                return true;
-            });
-        }
-
         public void DrawEntity(Entity entity, WriteableBitmap bitmap)
         {
             using (var fb = bitmap.Lock())
@@ -79,21 +52,7 @@ namespace MCLevelEdit.Services
             }
         }
 
-        private void SetBackground(Rect rect, Color colour, WriteableBitmap bitmap)
-        {
-            using (var fb = bitmap.Lock())
-            {
-                for (int x = (int)rect.X; x < rect.Width; x++)
-                {
-                    for (int y = (int)rect.Y; y < rect.Height; y++)
-                    {
-                        fb.SetPixel(x, y, colour);
-                    }
-                }
-            }
-        }
-
-        public Map CreateNewMap(ushort size = 256)
+        public Map CreateNewMap(ushort size = Globals.MAX_MAP_SIZE)
         {
             var map = new Map();
             return map;
