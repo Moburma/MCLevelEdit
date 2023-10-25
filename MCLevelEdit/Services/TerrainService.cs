@@ -39,11 +39,15 @@ namespace MCLevelEdit.Services
                         for (int x = 0; x < Globals.MAX_MAP_SIZE; x++)
                         {
                             int index = (y * Globals.MAX_MAP_SIZE) + x;
+                            if (heightMap[index] > 20)
+                            {
+                                int j = 0;
+                            }
                             fb.SetPixel(x, y, new Color(255, heightMap[index], heightMap[index], heightMap[index]));
                         }
                     }
                 }
-                BitmapUtils.SaveBitmap(bitmap);
+                //BitmapUtils.SaveBitmap(bitmap);
 
                 return bitmap;
             });
@@ -101,21 +105,21 @@ namespace MCLevelEdit.Services
             ushort srandNumber;
 
             sumEnt = mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.X += (byte)(2 * a1);
+            indexx.X += (byte)(2 * a1);
             sumEnt += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.Y += (byte)(2 * a1);
+            indexx.Y += (byte)(2 * a1);
             sumEnt += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.X -= (byte)(2 * a1);
+            indexx.X -= (byte)(2 * a1);
             sumEnt += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.X += (byte)a1;
-            indexx.Axis2D.Y -= (byte)a1;
+            indexx.X += (byte)a1;
+            indexx.Y -= (byte)a1;
             srandNumber = (ushort)(9377 * nextRand + 9439);
             nextRand = (short)srandNumber;
             //if (mapEntityIndex_15B4E0[indexx.Word] <= 0)
                 mapEntityIndex_15B4E0[indexx.Word] = (short)(srandNumber % (ushort)(2 * gnarl + 1)
                 + srandNumber % (ushort)((a1 << 6) + 1) + (sumEnt >> 2) - 32 * a1 - gnarl);
-            indexx.Axis2D.X += (byte)a1;
-            indexx.Axis2D.Y -= (byte)a1;
+            indexx.X += (byte)a1;
+            indexx.Y -= (byte)a1;
         }
 
         //----- (000B5F8F) --------------------------------------------------------
@@ -134,18 +138,18 @@ namespace MCLevelEdit.Services
 
             sumEnt = mapEntityIndex_15B4E0[indexx.Word];
             sumEnt2 = sumEnt;
-            indexx.Axis2D.X += (byte)a1;
-            indexx.Axis2D.Y -= (byte)a1;
+            indexx.X += (byte)a1;
+            indexx.Y -= (byte)a1;
             sumEnt += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.X += (byte)a1;
-            indexx.Axis2D.Y += (byte)a1;
+            indexx.X += (byte)a1;
+            indexx.Y += (byte)a1;
             sumEnt += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.X -= (byte)a1;
-            indexx.Axis2D.Y += (byte)a1;
+            indexx.X -= (byte)a1;
+            indexx.Y += (byte)a1;
             sumEnt += mapEntityIndex_15B4E0[indexx.Word];
             srandNumber = (ushort)(9377 * nextRand + 9439);
             sumEnt2 += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.Y -= (byte)a1;
+            indexx.Y -= (byte)a1;
             //if (mapEntityIndex_15B4E0[indexx.Word] <= 0)
                 mapEntityIndex_15B4E0[indexx.Word] = (short)(srandNumber % (ushort)(2 * gnarl + 1)
                 + srandNumber % (ushort)((a1 << 6) + 1) + (ushort)(sumEnt >> 2) - 32 * a1 - gnarl);
@@ -156,20 +160,20 @@ namespace MCLevelEdit.Services
             //  \   \
             //   .-B R
 
-            indexx.Axis2D.X -= (byte)(2 * a1);
-            indexx.Axis2D.Y += (byte)a1;
+            indexx.X -= (byte)(2 * a1);
+            indexx.Y += (byte)a1;
             sumEnt2 += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.X += (byte)a1;
-            indexx.Axis2D.Y += (byte)a1;
+            indexx.X += (byte)a1;
+            indexx.Y += (byte)a1;
             sumEnt2 += mapEntityIndex_15B4E0[indexx.Word];
-            indexx.Axis2D.Y -= (byte)a1;
+            indexx.Y -= (byte)a1;
             srandNumber = (ushort)(9377 * srandNumber + 9439);
             nextRand = (short)srandNumber;
             //if (mapEntityIndex_15B4E0[indexx.Word] <= 0)
                 mapEntityIndex_15B4E0[indexx.Word] = (short)(srandNumber % (ushort)(2 * gnarl + 1)
                 + srandNumber % (ushort)((a1 << 6) + 1) + (ushort)(sumEnt2 >> 2) - 32 * a1 - gnarl);
-            indexx.Axis2D.X += (byte)(2 * a1);
-            indexx.Axis2D.Y -= (byte)a1;
+            indexx.X += (byte)(2 * a1);
+            indexx.Y -= (byte)a1;
         }
 
         private void sub_44DB0_truncTerrainHeight(short[] mapEntityIndex_15B4E0, byte[] mapHeightmap_11B4E0)//225db0 // map to heightmap

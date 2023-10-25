@@ -1,13 +1,15 @@
 ﻿namespace MCLevelEdit.DataModel;
 
-public class UAxis2d
-{
-    public Axis2d Axis2D { get; set; }
-    public ushort Word { get; set; }
+using System.Runtime.InteropServices;
 
-    public UAxis2d()
-    {
-        Axis2D = new Axis2d();
-    }
+[StructLayout(LayoutKind.Explicit)]
+public struct UAxis2d
+{
+    [FieldOffset(0)]
+    public byte X;
+    [FieldOffset(1)]
+    public byte Y;
+    [FieldOffset(0)]
+    public ushort Word;
 }
 
