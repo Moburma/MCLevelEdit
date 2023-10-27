@@ -12,6 +12,7 @@ namespace MCLevelEdit.ViewModels
         {
             CreateEntityViewModel = Locator.Current.GetService<CreateEntityViewModel>();
             CreateTerrainViewModel = Locator.Current.GetService<CreateTerrainViewModel>();
+            CreateTerrainViewModel.GenerateHeightMap();
         }
     }
 }

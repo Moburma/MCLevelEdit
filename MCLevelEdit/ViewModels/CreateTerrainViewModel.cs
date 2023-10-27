@@ -1,6 +1,7 @@
 ﻿using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
 using ReactiveUI;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MCLevelEdit.ViewModels
@@ -20,11 +21,16 @@ namespace MCLevelEdit.ViewModels
 
             GenerateTerrainCommand = ReactiveCommand.Create(async () =>
             {
-                GenerateTerrainButtonEnable = false;
-                Map.Instance.HeightMap = await _terrainService.CalculateTerrain(TerrainGenerationParameters);
-                GenerateTerrainButtonEnable = true;
-                RefreshPreviewAsync();
+                await GenerateHeightMap();
             });
+        }
+
+        public async Task GenerateHeightMap()
+        {
+            GenerateTerrainButtonEnable = false;
+            Map.Instance.HeightMap = await _terrainService.CalculateTerrain(TerrainGenerationParameters);
+            GenerateTerrainButtonEnable = true;
+            await RefreshPreviewAsync();
         }
     }
 }
