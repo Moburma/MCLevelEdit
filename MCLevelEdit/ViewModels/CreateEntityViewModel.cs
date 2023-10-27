@@ -26,7 +26,7 @@ namespace MCLevelEdit.ViewModels
             .Select(x => new KeyValuePair<int, string>(key: x, value: Enum.GetName(typeof(TypeId), x)))
             .ToArray();
 
-        public CreateEntityViewModel(IMapService mapService) : base(mapService)
+        public CreateEntityViewModel(IMapService mapService, ITerrainService terrainService) : base(mapService, terrainService)
         {
             Entity = new Entity()
             {

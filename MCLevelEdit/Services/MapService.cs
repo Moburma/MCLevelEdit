@@ -21,6 +21,8 @@ namespace MCLevelEdit.Services
                     new Vector(96, 96), // DPI (dots per inch)
                     PixelFormat.Rgba8888);
 
+                BitmapUtils.SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(0, 0, 0, 0), bitmap);
+
                 return DrawBitmapAsync(map, bitmap);
             });
         }
@@ -30,8 +32,6 @@ namespace MCLevelEdit.Services
             return Task.Run(() =>
             {
                 var Entities = map.Entities;
-
-                BitmapUtils.SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(0, 0, 0, 0), bitmap);
 
                 foreach (var entity in Entities)
                 {

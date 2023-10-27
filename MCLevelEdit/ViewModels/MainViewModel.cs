@@ -14,7 +14,7 @@ public class MainViewModel : ViewModelBase
 
     public Interaction<EntitiesViewModel, EntitiesViewModel?> ShowDialog { get; }
 
-    public MainViewModel(IMapService mapService) : base(mapService)
+    public MainViewModel(IMapService mapService, ITerrainService terrainService) : base(mapService, terrainService)
     {
         EntitiesViewModel = Locator.Current.GetService<EntitiesViewModel>();
         MapViewModel = Locator.Current.GetService<MapViewModel>();

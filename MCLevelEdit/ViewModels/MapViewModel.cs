@@ -8,7 +8,7 @@ namespace MCLevelEdit.ViewModels
         public CreateEntityViewModel CreateEntityViewModel { get; }
         public CreateTerrainViewModel CreateTerrainViewModel { get; }
 
-        public MapViewModel(IMapService mapService) : base(mapService)
+        public MapViewModel(IMapService mapService, ITerrainService terrainService) : base(mapService, terrainService)
         {
             CreateEntityViewModel = Locator.Current.GetService<CreateEntityViewModel>();
             CreateTerrainViewModel = Locator.Current.GetService<CreateTerrainViewModel>();

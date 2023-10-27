@@ -22,6 +22,8 @@ namespace MCLevelEdit.Services
                     new Vector(96, 96), // DPI (dots per inch)
                     PixelFormat.Rgba8888);
 
+                BitmapUtils.SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, 0, 0, 0), bitmap);
+
                 return DrawBitmapAsync(heightMap, bitmap);
             });
         }
@@ -30,8 +32,6 @@ namespace MCLevelEdit.Services
         {
             return Task.Run(() =>
             {
-                BitmapUtils.SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(255, 0, 0, 0), bitmap);
-
                 using (var fb = bitmap.Lock())
                 {
                     for (int y = 0; y < Globals.MAX_MAP_SIZE; y++)
@@ -77,7 +77,7 @@ namespace MCLevelEdit.Services
                     for (int k = 1 << (7 - i); k > 0; k--)
                     {
                         sub_B5EFA(mapEntityIndex_15B4E0, (short)(1 << i), ref sumEnt, gnarl, ref seed);//355220
-                        this.Log().Debug($"sub_B5EFA Seed:{seed} offset:{offset} raise:{raise} gnarl:{gnarl}");
+                        //this.Log().Debug($"sub_B5EFA Seed:{seed} offset:{offset} raise:{raise} gnarl:{gnarl}");
                     }
                     sumEnt.Word += (ushort)((2 * (1 << i)) << 8);
                 }
@@ -86,7 +86,7 @@ namespace MCLevelEdit.Services
                     for (int k = 1 << (7 - i); k > 0; k--)
                     {
                         sub_B5F8F(mapEntityIndex_15B4E0, (short)(1 << i), ref sumEnt, gnarl, ref seed);
-                        this.Log().Debug($"sub_B5F8F Seed:{seed} offset:{offset} raise:{raise} gnarl:{gnarl}");
+                        //this.Log().Debug($"sub_B5F8F Seed:{seed} offset:{offset} raise:{raise} gnarl:{gnarl}");
                     }
                     sumEnt.Word += (ushort)((2 * (1 << i)) << 8);
                 }

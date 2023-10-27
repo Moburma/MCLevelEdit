@@ -1,7 +1,11 @@
-﻿using Avalonia.Collections;
+﻿using Avalonia;
+using Avalonia.Collections;
+using Avalonia.Media;
 using MCLevelEdit.DataModel;
 using MCLevelEdit.Interfaces;
+using MCLevelEdit.Utils;
 using ReactiveUI;
+using Splat;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,13 +14,15 @@ namespace MCLevelEdit.ViewModels;
 public class ViewModelBase : ReactiveObject
 {
     protected readonly IMapService _mapService;
+    protected readonly ITerrainService _terrainService;
 
     public AvaloniaList<Entity> Entities => new AvaloniaList<Entity>(Map.Instance.Entities);
     public Map Map { get; set; }
 
-    public ViewModelBase(IMapService mapService)
+    public ViewModelBase(IMapService mapService, ITerrainService terrainService)
     {
         _mapService = mapService;
+        _terrainService = terrainService;
 
         if (Map.Instance is null)
         {
@@ -27,7 +33,27 @@ public class ViewModelBase : ReactiveObject
 
     protected async Task RefreshPreviewAsync()
     {
-        Map.Preview = await _mapService.GenerateBitmapAsync(Map);
+        await Task.Run(async () =>
+        {
+            this.Log().Debug("Refreshing Preview...");
+            if (Map.Preview is not null)
+            {
+                BitmapUtils.SetBackground(new Rect(0, 0, Globals.MAX_MAP_SIZE, Globals.MAX_MAP_SIZE), new Color(0, 0, 0, 0), Map.Preview);
+            }
+
+            if (Map.HeightMap is not null)
+            {
+                this.Log().Debug("Drawing Terrain...");
+                Map.Preview = await _terrainService.GenerateBitmapAsync(Map.Instance.HeightMap);
+                Map.Preview = await _mapService.DrawBitmapAsync(Map, Map.Preview);
+            }
+            else
+            {
+                this.Log().Debug("Drawing Entities...");
+                Map.Preview = await _mapService.GenerateBitmapAsync(Map);
+            }
+            this.Log().Debug("Preview refreshed");
+        });
     }
 
     protected Entity AddEntity(EntityType entityType, Position position, ushort parent = 0, ushort child = 0)
