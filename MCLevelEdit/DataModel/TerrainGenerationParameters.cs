@@ -11,7 +11,8 @@ namespace MCLevelEdit.DataModel
         private ushort _offset = 48953;
         private ushort _raise = 1140;
         private ushort _gnarl = 98;
-        private ushort _river;
+        private ushort _river = 49;
+        private ushort _lriver = 84;
         private ushort _source;
         private ushort _snLin;
         private ushort _snFlt;
@@ -47,6 +48,12 @@ namespace MCLevelEdit.DataModel
         {
             get { return _river; }
             set { SetProperty(ref _river, value); }
+        }
+
+        public ushort LRiver
+        {
+            get { return _lriver; }
+            set { SetProperty(ref _lriver, value); }
         }
 
         public ushort Source
