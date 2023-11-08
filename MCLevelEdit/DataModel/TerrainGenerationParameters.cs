@@ -1,7 +1,4 @@
-﻿using Avalonia.Data.Converters;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Globalization;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace MCLevelEdit.DataModel
 {
@@ -13,12 +10,12 @@ namespace MCLevelEdit.DataModel
         private ushort _gnarl = 98;
         private ushort _river = 49;
         private ushort _lriver = 84;
-        private ushort _source;
-        private ushort _snLin;
-        private ushort _snFlt;
-        private ushort _bhLin;
-        private ushort _bhFlt;
-        private ushort _rkSte;
+        private ushort _source = 136;
+        private ushort _snLin = 13;
+        private ushort _snFlt = 97;
+        private ushort _bhLin = 31;
+        private ushort _bhFlt = 35;
+        private ushort _rkSte = 10;
 
         public ushort Seed
         {
