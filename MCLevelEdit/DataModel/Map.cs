@@ -13,6 +13,7 @@ namespace MCLevelEdit.DataModel
         byte[] _heightMap;
         private WriteableBitmap _preview;
 
+        public TerrainGenerationParameters TerrainGenerationParameters { get; set; }
         public IList<Entity> Entities { get { return _entities; } }
         public byte[] HeightMap { get { return _heightMap; } set { _heightMap = value; } }
         public WriteableBitmap Preview

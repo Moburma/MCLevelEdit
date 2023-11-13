@@ -25,7 +25,12 @@ namespace MCLevelEdit.DataModel
         public EntityType EntityType
         {
             get { return _entityType; }
-            set { SetProperty(ref _entityType, value); }
+            set 
+            {
+                SetProperty(ref _entityType, value);
+                //PropertyChanged(nameof(_entityType.Child));
+            
+            }
         }
 
         public ushort Parent

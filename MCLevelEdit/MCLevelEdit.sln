@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCLevelEdit", "MCLevelEdit.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCLevelEdit.Desktop", "..\MCLevelEdit.Desktop\MCLevelEdit.Desktop.csproj", "{A9EBEC2A-CABA-4508-83CC-5BAA931FBA49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCLevelEdit.Test", "..\MCLevelEdit.Test\MCLevelEdit.Test.csproj", "{EF0516AA-9365-467F-8429-FD548366A6CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A9EBEC2A-CABA-4508-83CC-5BAA931FBA49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9EBEC2A-CABA-4508-83CC-5BAA931FBA49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9EBEC2A-CABA-4508-83CC-5BAA931FBA49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF0516AA-9365-467F-8429-FD548366A6CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF0516AA-9365-467F-8429-FD548366A6CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF0516AA-9365-467F-8429-FD548366A6CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF0516AA-9365-467F-8429-FD548366A6CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
