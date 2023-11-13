@@ -67,9 +67,9 @@ namespace MCLevelEdit.Services
             sub_44E40_generate_rivers(mapHeightmap_11B4E0, mapAngle_13B4E0, mapTerrainType_10B4E0, genParams.River, genParams.LRiver, ref seed_17B4E0);//225e40 //add any fields
             sub_45AA0_setMax4Tiles(mapHeightmap_11B4E0, mapAngle_13B4E0);
             sub_440D0(mapHeightmap_11B4E0, mapAngle_13B4E0, genParams.SnLin);//2250d0
-            sub_45060(mapHeightmap_11B4E0, mapAngle_13B4E0, mapTerrainType_10B4E0, (byte)genParams.SnFlt, (byte)genParams.BhLin);//226060
+            sub_45060(mapHeightmap_11B4E0, mapAngle_13B4E0, mapTerrainType_10B4E0, genParams.SnFlt, genParams.BhLin);//226060
             sub_44320(mapAngle_13B4E0);//225320
-            sub_45210(mapHeightmap_11B4E0, mapAngle_13B4E0, mapTerrainType_10B4E0, (byte)genParams.SnFlt, (byte)genParams.BhLin);//226210
+            sub_45210(mapHeightmap_11B4E0, mapAngle_13B4E0, mapTerrainType_10B4E0, genParams.SnFlt, genParams.BhLin);//226210
                                                                                                 
             return mapHeightmap_11B4E0;
         }
