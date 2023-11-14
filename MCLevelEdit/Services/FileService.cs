@@ -25,18 +25,17 @@ namespace MCLevelEdit.Services
 
             TerrainGenerationParameters terrainGenerationParameters = new TerrainGenerationParameters()
             {
-                Seed = (ushort)(levfile[4] + levfile[5])
-                //$Seed = convert16bitint $levfile[4] $levfile[5]
-                //$Offset = convert16bitint $levfile[8] $levfile[9]
-                //$Raise = convert32bitint $levfile[12] $levfile[13] $levfile[14] $levfile[15]
-                //$Gnarl = convert16bitint $levfile[16] $levfile[17]
-                //$River = convert16bitint $levfile[20] $levfile[21]
-                //$Sourc = convert16bitint $levfile[24] $levfile[25]
-                //$SnLin = convert16bitint $levfile[28] $levfile[29]
-                //$SnFlt = convert16bitint $levfile[32] $levfile[33]
-                //$BhLin = convert16bitint $levfile[36] $levfile[37]
-                //$BhFlt = convert16bitint $levfile[40] $levfile[41]
-                //$RkSte = convert16bitint $levfile[44] $levfile[45]
+                Seed = (ushort)(levfile[4] + levfile[5]),
+                Offset = (ushort)(levfile[8] + levfile[9]),
+                Raise = (ushort)(levfile[12] + levfile[13] + levfile[14] + levfile[15]),
+                Gnarl = (ushort)(levfile[16] + levfile[17]),
+                River = (ushort)(levfile[20] + levfile[21]),
+                Source = (ushort)(levfile[24] + levfile[25]),
+                SnLin = (ushort)(levfile[28] + levfile[29]),
+                SnFlt = (byte)(levfile[32] + levfile[33]),
+                BhLin = (byte)(levfile[36] + levfile[37]),
+                BhFlt = (ushort)(levfile[40] + levfile[41]),
+                RkSte = (ushort)(levfile[44] + levfile[45])
             };
 
             Map map = new Map()
