@@ -1,5 +1,6 @@
 ﻿using MCLevelEdit.DataModel;
 using System;
+using System.Data;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -10,7 +11,6 @@ namespace MCLevelEdit.Services
         public Task<Map> LoadMapFromFile(string fileName)
         {
             var levfile = File.ReadAllBytes(fileName);
-            var thingcount = 1999;
             var counter = 0;
             var Wnumber = 1;
 
@@ -21,21 +21,21 @@ namespace MCLevelEdit.Services
 
             var manaTarget = levfile[38800];
             var numWizards = levfile[38802];
-            var manaTotal = levfile[0] + levfile[1] + levfile[2] + levfile[3];
+            var manaTotal = BitConverter.ToInt32(levfile, 0);
 
             TerrainGenerationParameters terrainGenerationParameters = new TerrainGenerationParameters()
             {
-                Seed = (ushort)(levfile[4] + levfile[5]),
-                Offset = (ushort)(levfile[8] + levfile[9]),
-                Raise = (ushort)(levfile[12] + levfile[13] + levfile[14] + levfile[15]),
-                Gnarl = (ushort)(levfile[16] + levfile[17]),
-                River = (ushort)(levfile[20] + levfile[21]),
-                Source = (ushort)(levfile[24] + levfile[25]),
-                SnLin = (ushort)(levfile[28] + levfile[29]),
-                SnFlt = (byte)(levfile[32] + levfile[33]),
-                BhLin = (byte)(levfile[36] + levfile[37]),
-                BhFlt = (ushort)(levfile[40] + levfile[41]),
-                RkSte = (ushort)(levfile[44] + levfile[45])
+                Seed = BitConverter.ToUInt16(levfile, 4),
+                Offset = BitConverter.ToUInt16(levfile, 8),
+                Raise = (ushort)BitConverter.ToUInt32(levfile, 12),
+                Gnarl = BitConverter.ToUInt16(levfile, 16),
+                River = BitConverter.ToUInt16(levfile, 20),
+                Source = BitConverter.ToUInt16(levfile, 24),
+                SnLin = BitConverter.ToUInt16(levfile, 28),
+                SnFlt = (byte)BitConverter.ToUInt16(levfile, 32),
+                BhLin = (byte)BitConverter.ToUInt16(levfile, 36),
+                BhFlt = BitConverter.ToUInt16(levfile, 40),
+                RkSte = BitConverter.ToUInt16(levfile, 44)
             };
 
             Map map = new Map()
