@@ -137,5 +137,27 @@ namespace MCLevelEdit.DataModel
                     return new EntityType(typeId, Color.FromRgb(0, 0, 0), 0, "");
             }
         }
+
+        public static EntityType GetEntityFromTypeIdAndChildId(this TypeId typeId, int childId)
+        {
+            switch (typeId)
+            {
+                case TypeId.Scenary:
+                    return EntityTypes.I.Sceneries[childId];
+                case TypeId.Spawn:
+                    return EntityTypes.I.Spawns[childId];
+                case TypeId.Creature:
+                    return EntityTypes.I.Creatures[childId];
+                case TypeId.Weather:
+                    return EntityTypes.I.Weathers[childId];
+                case TypeId.Effect:
+                    return EntityTypes.I.Effects[childId];
+                case TypeId.Switch:
+                    return EntityTypes.I.Switches[childId];
+                case TypeId.Spell:
+                    return EntityTypes.I.Spells[childId];
+            }
+            return null;
+        }
     }
 }
