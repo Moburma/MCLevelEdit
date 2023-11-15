@@ -26,6 +26,7 @@ namespace MCLevelEdit.DataModel
         {
             _entities = new List<Entity>();
             _heightMap = new byte[Globals.MAX_MAP_SIZE * Globals.MAX_MAP_SIZE];
+            TerrainGenerationParameters = new TerrainGenerationParameters();
         }
 
         public IList<Entity> GetEntitiesByPosition(Position postion)

@@ -10,6 +10,7 @@ namespace MCLevelEdit
     {
         public static void Register(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
         {
+            services.RegisterLazySingleton<IFileService>(() => new FileService());
             services.RegisterLazySingleton<IMapService>(() => new MapService());
             services.RegisterLazySingleton<ITerrainService>(() => new TerrainService());
             services.RegisterLazySingleton(() => new MainViewModel(resolver.GetService<IMapService>(), resolver.GetService<ITerrainService>()));

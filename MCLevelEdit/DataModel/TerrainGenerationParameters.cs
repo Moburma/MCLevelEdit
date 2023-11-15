@@ -4,18 +4,18 @@ namespace MCLevelEdit.DataModel
 {
     public class TerrainGenerationParameters : ObservableObject
     {
-        private ushort _seed = 48030;
-        private ushort _offset = 5123;
-        private ushort _raise = 42949;
+        private ushort _seed = 0;
+        private ushort _offset = 0;
+        private ushort _raise = 0;
         private ushort _gnarl = 0;
         private ushort _river = 0;
         private ushort _lriver = 0;
         private ushort _source = 0;
-        private ushort _snLin = 200;
-        private byte _snFlt = 47;
-        private byte _bhLin = 30;
-        private ushort _bhFlt = 15;
-        private ushort _rkSte = 14;
+        private ushort _snLin = 0;
+        private byte _snFlt = 0;
+        private byte _bhLin = 0;
+        private ushort _bhFlt = 0;
+        private ushort _rkSte = 0;
 
         public ushort Seed
         {

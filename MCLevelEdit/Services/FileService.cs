@@ -1,11 +1,12 @@
 ﻿using MCLevelEdit.DataModel;
+using MCLevelEdit.Interfaces;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace MCLevelEdit.Services
 {
-    public class FileService
+    public class FileService : IFileService
     {
         public Task<Map> LoadMapFromFile(string fileName)
         {
