@@ -1,9 +1,12 @@
 # MCLevelEdit
-A simplistic Level Editor for the Bullfrog Productions game Magic Carpet. It's written in PowerShell 5, but will eventually get re-written into C#.
+A simplistic Level Editor for the Bullfrog Productions game Magic Carpet. It's written in PowerShell 5.
+
+**I won't work on this any more, please see the much better C# editor here:** https://github.com/thobbsinteractive/MCLevelEdit 
+This new editor supports actual rendering of the terrain and is far more feature complete than this attempt ever could be.
 
 Currently it only works for the original Magic Carpet, but likely works fine for levels from the Hidden Worlds expansion too. It does not work with Magic Carpet 2 levels (yet).
 
-At the moment this is more of a proof of concept release, it is useful mainly for reverse engineering and editing the existing levels. It will eventually support making your own levels from scratch, better support for which should come soon.
+At the moment this is more of a proof of concept release, it is useful mainly for reverse engineering and editing the existing levels. 
 
 ![Example Screenshot](MCLevelEdit1.png)
 
